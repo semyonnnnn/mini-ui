@@ -1,10 +1,12 @@
-export const listItems = {
-  listStyleType: "none",
-  fontWeight: "700",
-  borderBottom: "1px solid black",
-  margin: "2px",
-  cursor: "pointer",
-  userSelect: "none",
+export const document = {
+  li: {
+    listStyleType: "none",
+    fontWeight: "700",
+    borderBottom: "1px solid black",
+    margin: "2px",
+    cursor: "pointer",
+    userSelect: "none",
+  },
 };
 
 export const menuWrapper = {
@@ -12,18 +14,20 @@ export const menuWrapper = {
   justifyContent: "space-between",
 };
 
-export const wrapper = {
-  position: "absolute",
-  width: "100%",
-  height: "100vh",
-  backgroundColor: "rgb(120,120,120)",
-  zIndex: "1",
-  backdropFilter: `blur(10px)`,
-};
+//DELETE: not for production
+// export const wrapper = {
+//   position: "absolute",
+//   width: "100%",
+//   height: "100vh",
+//   backgroundColor: "rgb(120,120,120)",
+//   zIndex: "1",
+//   backdropFilter: `blur(10px)`,
+// };
+//
 
 export const modal = {
   width: "100%",
-  height: "100%",
+  height: "100vh",
   visibility: "hidden",
   position: "absolute",
   margin: "auto",
@@ -65,6 +69,7 @@ export const after = {
 
 export const navMenu = {
   display: "flex",
+  position: "relative",
   flexDirection: "column",
 };
 
@@ -81,28 +86,33 @@ export const mainContent = {
 };
 
 export const imgBox = {
-  display: "flex",
-  justifyContent: "space-around",
-  marginTop: "1rem",
+  self: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "1rem",
+  },
+  div: {
+    display: "flex",
+    width: "fit-content",
+    alignItems: "center",
+    gap: "1rem",
+  },
+  img: {
+    width: "3rem",
+    height: "3rem",
+  },
+  p: {
+    margin: "0",
+  },
 };
 
-export const secondaryMenu_li = {
-  padding: "0 16px",
-  marginBottom: "10px",
-};
-
-export const imgBox_div = {
-  display: "flex",
-  width: "fit-content",
-  alignItems: "center",
-  gap: "1rem",
-};
-
-export const imgBox_img = {
-  width: "3rem",
-  height: "3rem",
-};
-
-export const imgBox_p = {
-  margin: "0",
+export const secondaryMenu = {
+  self: {
+    position: "absolute",
+    top: "2rem",
+    backgroundColor: "white",
+    padding: "1rem 0",
+    boxShadow: "2px 2px 12px black",
+    width: "100%",
+  },
 };

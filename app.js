@@ -1,6 +1,12 @@
+import { buildModal } from "./render.js";
 import { Menu } from "./Menu.js";
-import "./styles.js";
-import "./functions.js";
+import { doStyles } from "./styles.js";
+import { doFunctions } from "./functions.js";
 
-(new Menu);
+buildModal();
+new Menu();
 
+setTimeout(() => {
+  doFunctions();
+  doStyles();
+});

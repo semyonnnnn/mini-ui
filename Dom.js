@@ -1,9 +1,19 @@
-import { DomElementsById, DomElementsByClasses } from "./configs/dom-config.js";
+import { config } from "./configs/modal-dom-config.js";
 
 class Dom {
+  //DELETE: not for production
+  arrayOfItems = ["modal"];
+  //
+
   constructor() {
-    Object.assign(this, this.getDomElementsById(DomElementsById));
-    Object.assign(this, this.getElementsBySelector(DomElementsByClasses));
+    this._getDomElementsById(config);
+    Object.assign(this, this.getDomElementsById(this.arrayOfItems));
+    Object.assign(
+      this,
+      this.getElementsBySelector({
+        statNavButton: ".btn.btn-primary.btn-lg.btn-block",
+      })
+    );
   }
 
   getDomElementsById = (ids) => {
@@ -20,6 +30,16 @@ class Dom {
       ])
     );
   };
+
+  _getDomElementsById(items) {
+    for (const key in items) {
+      const element = items[key];
+      this.arrayOfItems.push(key);
+      if (element.hasOwnProperty("children")) {
+        this._getDomElementsById(element.children);
+      }
+    }
+  }
 }
 
-export const DomElements = new Dom();
+export { Dom };
