@@ -2,6 +2,8 @@ import { Dom } from "./Dom.js";
 
 export const doFunctions = () => {
   const DomElements = new Dom();
+  // console.log(DomElements);
+  // console.log(DomElements);
   const {
     wrapper,
     modal,

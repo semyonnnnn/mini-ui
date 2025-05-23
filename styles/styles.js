@@ -14,23 +14,12 @@ export const menuWrapper = {
   justifyContent: "space-between",
 };
 
-//DELETE: not for production
-// export const wrapper = {
-//   position: "absolute",
-//   width: "100%",
-//   height: "100vh",
-//   backgroundColor: "rgb(120,120,120)",
-//   zIndex: "1",
-//   backdropFilter: `blur(10px)`,
-// };
-//
-
 export const modal = {
   width: "100%",
   height: "100vh",
   visibility: "hidden",
   position: "absolute",
-  margin: "auto",
+  marginLeft: "1rem",
   padding: "1rem",
   inset: "0",
   zIndex: "1",

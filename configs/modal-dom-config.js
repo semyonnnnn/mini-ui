@@ -1,4 +1,7 @@
 export const config = {
+  // modal: {
+  //   type: "div",
+  //   children: {
   menuWrapper: {
     type: "div",
     children: {
@@ -176,4 +179,6 @@ export const config = {
       },
     },
   },
+  //   },
+  // },
 };

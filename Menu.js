@@ -1,5 +1,23 @@
 import { MenuMixins } from "./Mixins.js";
+import { Dom } from "./Dom.js";
+const DomElements = new Dom();
+// console.log(DomElements);
+const {
+  wrapper,
+  modal,
+  closeButton,
+  before,
+  after,
+  navMenu,
+  menuWrapper,
+  mainNavMenu,
+  secondaryMenu,
+  mainContent,
+  imgBox,
+  statNavButton,
+} = DomElements;
 
+console.log(DomElements);
 class Menu extends MenuMixins {
   constructor() {
     super();
@@ -49,6 +67,17 @@ class Menu extends MenuMixins {
         });
         this.show(menu);
       });
+
+      // console.log("trigger.id.includes('menu'):", trigger.id.includes("menu"));
+      (trigger.id.includes("moreInfo") || trigger.id.includes("report")) &&
+        trigger.addEventListener("mouseover", () => {
+          entries.forEach(([otherKey, [otherTrigger, otherMenu]], i) => {
+            if (otherKey !== key) {
+              this.hide(otherMenu);
+            }
+          });
+          this.show(menu);
+        });
     });
   }
 }

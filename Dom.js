@@ -1,13 +1,12 @@
 import { config } from "./configs/modal-dom-config.js";
 
 class Dom {
-  //DELETE: not for production
-  arrayOfItems = ["modal"];
-  //
+  arrayOfItems = [];
 
   constructor() {
-    this._getDomElementsById(config);
+    this.buildArray(config);
     Object.assign(this, this.getDomElementsById(this.arrayOfItems));
+    // Object.assign(this, this._getDomElementsById(config));
     Object.assign(
       this,
       this.getElementsBySelector({
@@ -31,14 +30,30 @@ class Dom {
     );
   };
 
-  _getDomElementsById(items) {
+  buildArray(items) {
     for (const key in items) {
-      const element = items[key];
       this.arrayOfItems.push(key);
-      if (element.hasOwnProperty("children")) {
-        this._getDomElementsById(element.children);
+      if (items[key].hasOwnProperty("children")) {
+        this.buildArray(items[key].children);
       }
     }
+  }
+
+  _getDomElementsById(items, object = {}) {
+    for (const key in items) {
+      const element = items[key];
+      object[key] = document.getElementById(key);
+      // if (object !== null) {
+      //   console.log("object:", object);
+      // }
+
+      if (element.hasOwnProperty("children")) {
+        this._getDomElementsById(element.children, object);
+      }
+    }
+    console.log(object);
+
+    return object;
   }
 }
 
