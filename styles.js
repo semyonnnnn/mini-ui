@@ -1,10 +1,10 @@
 import * as styles from "./styles/styles.js";
-import { Dom } from "./Dom.js";
+import { DomMap } from "./DomMap.js";
 
 export const doStyles = () => {
-  const DomElements = new Dom();
+  const DomElements = new DomMap();
 
-  // console.log(DomElements);
+  console.log(DomElements);
 
   const applyStyles = (element, styles) => {
     if (element && styles) {
@@ -13,13 +13,12 @@ export const doStyles = () => {
     return;
   };
 
-  DomElements.arrayOfItems.forEach((key) => {
+  for (const key in DomElements) {
     if (styles[key]) {
       const style = styles[key].self ?? styles[key];
       applyStyles(DomElements[key], style);
     }
-    return;
-  });
+  }
 
   const applyStylesQSA = (parent, element, styles) => {
     if ((parent, element && styles)) {
@@ -31,6 +30,7 @@ export const doStyles = () => {
   };
 
   applyStylesQSA(document, "li", styles.document.li);
+  applyStylesQSA(document, "a", styles.document.a);
   applyStylesQSA(imgBox, "div", styles.imgBox.div);
   applyStylesQSA(imgBox, "img", styles.imgBox.img);
   applyStylesQSA(imgBox, "p", styles.imgBox.p);

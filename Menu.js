@@ -1,23 +1,6 @@
 import { MenuMixins } from "./Mixins.js";
-import { Dom } from "./Dom.js";
-const DomElements = new Dom();
-// console.log(DomElements);
-const {
-  wrapper,
-  modal,
-  closeButton,
-  before,
-  after,
-  navMenu,
-  menuWrapper,
-  mainNavMenu,
-  secondaryMenu,
-  mainContent,
-  imgBox,
-  statNavButton,
-} = DomElements;
+import { DomMap } from "./DomMap.js";
 
-console.log(DomElements);
 class Menu extends MenuMixins {
   constructor() {
     super();
@@ -34,6 +17,21 @@ class Menu extends MenuMixins {
   }
 
   buildSubMenuMap() {
+    const DomElements = new DomMap();
+    const {
+      wrapper,
+      modal,
+      closeButton,
+      before,
+      after,
+      navMenu,
+      menuWrapper,
+      mainNavMenu,
+      secondaryMenu,
+      mainContent,
+      imgBox,
+      statNavButton,
+    } = DomElements;
     const entries = Array.from(this.selectAll(navMenu, this.full_prefix)).map(
       (trigger) => {
         const key = this.extractKeyFromId(trigger.id);

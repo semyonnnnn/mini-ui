@@ -1,7 +1,12 @@
-import { Dom } from "./Dom.js";
+import { DomMap } from "./DomMap.js";
+import { render } from "./renderer.js";
+import {
+  workspaceSetup_config,
+  tutorialVideos_config,
+} from "./configs/configs.js";
 
 export const doFunctions = () => {
-  const DomElements = new Dom();
+  const DomElements = new DomMap();
   // console.log(DomElements);
   // console.log(DomElements);
   const {
@@ -17,7 +22,18 @@ export const doFunctions = () => {
     mainContent,
     imgBox,
     statNavButton,
+    inner_workspaceSetup,
+    inner_tutorialVideos,
   } = DomElements;
+
+  inner_workspaceSetup.addEventListener("click", () => {
+    render("mainContent", workspaceSetup_config);
+    // console.log("wow");
+  });
+
+  inner_tutorialVideos.addEventListener("click", () => {
+    render("mainContent", tutorialVideos_config);
+  });
 
   navMenu.addEventListener("mouseleave", () => {
     secondaryMenu.style.display = "none";

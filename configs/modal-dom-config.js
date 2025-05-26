@@ -1,184 +1,229 @@
 export const config = {
-  // modal: {
-  //   type: "div",
-  //   children: {
-  menuWrapper: {
-    type: "div",
+  modal: {
+    html: "div",
     children: {
-      navMenu: {
-        type: "nav",
+      menuWrapper: {
+        html: "div",
         children: {
-          mainNavMenu: {
-            type: "ul",
+          navMenu: {
+            html: "nav",
             children: {
-              trigger_menu_report: {
-                type: "li",
-                textContent: "Предоставление отчётности",
+              mainNavMenu: {
+                html: "ul",
+                children: {
+                  trigger_menu_report: {
+                    html: "li",
+                    textContent: "Предоставление отчётности",
+                  },
+                  trigger_menu_moreInfo: {
+                    html: "li",
+                    textContent: "Дополнительная информация",
+                  },
+                },
               },
-              trigger_menu_moreInfo: {
-                type: "li",
-                textContent: "Дополнительная информация",
+              secondaryMenu: {
+                html: "ul",
+                children: {
+                  menu_report: {
+                    html: "div",
+                    children: {
+                      trigger_menu_signActions: {
+                        html: "li",
+                        textContent:
+                          "Действия с квалифицированной электронной подписью (ЭП)",
+                      },
+                      inner_workspaceSetup: {
+                        html: "li",
+                        textContent: "Настройка рабочего места",
+                      },
+                      trigger_menu_sysProfile: {
+                        html: "li",
+                        textContent: " Личный кабинет системы сбора отчётности",
+                      },
+                      inner_govkeyApp: {
+                        html: "li",
+                        textContent:
+                          "Предоставление отчётности с использованием приложения Госключ",
+                      },
+                      inner_specialProvider: {
+                        html: "li",
+                        textContent: "Специализированные операторы связи",
+                      },
+                    },
+                  },
+                  menu_signActions: {
+                    html: "div",
+                    children: {
+                      inner_getSignature: {
+                        html: "li",
+                        textContent:
+                          "Получение квалифицированной электронной подписи (ЭП)",
+                      },
+                      inner_replaceSignature: {
+                        html: "li",
+                        textContent:
+                          "Действия в случае замены электронной подписи (ЭП)",
+                      },
+                    },
+                  },
+                  menu_sysProfile: {
+                    html: "div",
+                    children: {
+                      outer_rosstatRegister: {
+                        html: "li",
+                        textContent: "",
+                        children: {
+                          outer_rosstatRegister_link: {
+                            html: "a",
+                            textContent: "Регистрация через портал Росстата",
+                            href: "https://websbor.rosstat.gov.ru/online/respondent-registration-request/",
+                          },
+                        },
+                      },
+                      inner_supportRegister: {
+                        html: "li",
+                        textContent:
+                          "Регистрация через службу технической поддержки",
+                      },
+                      outer_onlineReport: {
+                        html: "li",
+                        children: {
+                          outer_onlineReport_link: {
+                            html: "a",
+                            textContent: "Предоставить отчёт ONLINE",
+                            href: "https://websbor.rosstat.gov.ru/online/",
+                          },
+                        },
+                      },
+                      inner_offlineReport: {
+                        html: "li",
+                        textContent: "Предоставить отчёт OFFLINE",
+                      },
+                      inner_reportDigital: {
+                        html: "li",
+                        textContent:
+                          "Предоставить отчёт на электронном носителе",
+                      },
+                    },
+                  },
+                  menu_moreInfo: {
+                    html: "div",
+                    children: {
+                      outer_getDataForms: {
+                        html: "li",
+                        children: {
+                          outer_getDataForms_link: {
+                            html: "a",
+                            textContent: "Получить данные о кодах и формах",
+                            href: "https://websbor.rosstat.gov.ru/online/info",
+                          },
+                        },
+                      },
+                      inner_getUserDocs: {
+                        html: "li",
+                        textContent: "Пользовательская документация",
+                      },
+                      outer_FAQ: {
+                        html: "li",
+                        children: {
+                          outer_FAQ_link: {
+                            html: "a",
+                            textContent: "Часто задаваемые вопросы",
+                            href: "https://websbor.rosstat.gov.ru/online/faq-respondent",
+                          },
+                        },
+                      },
+                      inner_tutorialVideos: {
+                        html: "li",
+                        textContent: "Обучающие ролики по работе с веб-сбором",
+                      },
+                    },
+                  },
+                },
               },
             },
           },
-          secondaryMenu: {
-            type: "ul",
+          closeButton: {
+            html: "div",
             children: {
-              menu_report: {
-                type: "div",
-                children: {
-                  trigger_menu_signActions: {
-                    type: "li",
-                    textContent:
-                      "Действия с квалифицированной электронной подписью (ЭП)",
-                  },
-                  inner_workspaceSetup: {
-                    type: "li",
-                    textContent: "Настройка рабочего места",
-                  },
-                  trigger_menu_sysProfile: {
-                    type: "li",
-                    textContent: " Личный кабинет системы сбора отчётности",
-                  },
-                  inner_govkeyApp: {
-                    type: "li",
-                    textContent:
-                      "Предоставление отчётности с использованием приложения Госключ",
-                  },
-                  inner_specialProvider: {
-                    type: "li",
-                    textContent: "Специализированные операторы связи",
-                  },
-                },
+              before: {
+                html: "div",
               },
-              menu_signActions: {
-                type: "div",
-                children: {
-                  inner_getSignature: {
-                    type: "li",
-                    textContent:
-                      "Получение квалифицированной электронной подписи (ЭП)",
-                  },
-                  inner_replaceSignature: {
-                    type: "li",
-                    textContent:
-                      "Действия в случае замены электронной подписи (ЭП)",
-                  },
-                },
-              },
-              menu_sysProfile: {
-                type: "div",
-                children: {
-                  outer_rosstatRegister: {
-                    type: "li",
-                    textContent: "Регистрация через портал Росстата",
-                  },
-                  inner_supportRegister: {
-                    type: "li",
-                    textContent:
-                      "Регистрация через службу технической поддержки",
-                  },
-                  outer_onlineReport: {
-                    type: "li",
-                    textContent: "Предоставить отчёт ONLINE",
-                  },
-                  inner_offlineReport: {
-                    type: "li",
-                    textContent: "Предоставить отчёт OFFLINE",
-                  },
-                  inner_reportDigital: {
-                    type: "li",
-                    textContent: "Предоставить отчёт на электронном носителе",
-                  },
-                },
-              },
-              menu_moreInfo: {
-                type: "div",
-                children: {
-                  outer_getDataForms: {
-                    type: "li",
-                    textContent: "Получить данные о кодах и формах",
-                  },
-                  inner_getUserDocs: {
-                    type: "li",
-                    textContent: "Пользовательская документация",
-                  },
-                  outer_FAQ: {
-                    type: "li",
-                    textContent: "Часто задаваемые вопросы",
-                  },
-                  inner_tutorialVideos: {
-                    type: "li",
-                    textContent: "Обучающие ролики по работе с веб-сбором",
-                  },
-                },
+              after: {
+                html: "div",
               },
             },
           },
         },
       },
-      closeButton: {
-        type: "div",
+      mainContent: {
+        html: "div",
+        textContent:
+          "example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent ",
+      },
+      imgBox: {
+        html: "div",
         children: {
-          before: {
-            type: "div",
+          outer_tg: {
+            html: "div",
+            children: {
+              outer_tg_link: {
+                html: "a",
+                href: "https://t.me/rosstat66bot",
+                children: {
+                  tgImg: {
+                    html: "img",
+                    src: "../img/tg.png",
+                  },
+                  tgText: {
+                    html: "p",
+                    textContent: `Телеграм \n СтатБот`,
+                  },
+                },
+              },
+            },
           },
-          after: {
-            type: "div",
+          outer_contacts: {
+            html: "div",
+            children: {
+              outer_contacts_link: {
+                html: "a",
+                href: "https://66.rosstat.gov.ru/folder/52210",
+                children: {
+                  contactsImg: {
+                    html: "img",
+                    src: "../img/phone.png",
+                  },
+                  contactsText: {
+                    html: "p",
+                    textContent: `Контакты \n Специалистов`,
+                  },
+                },
+              },
+            },
+          },
+          outer_questions: {
+            html: "div",
+            href: "https://forms.yandex.ru/u/6554aee084227c368115f396/",
+            children: {
+              outer_questions_link: {
+                html: "a",
+                href: "https://forms.yandex.ru/u/6554aee084227c368115f396/",
+                children: {
+                  contactsImg: {
+                    html: "img",
+                    src: "../img/questionMark.png",
+                  },
+                  contactsText: {
+                    html: "p",
+                    textContent: `Остались \n вопросы?`,
+                  },
+                },
+              },
+            },
           },
         },
       },
     },
   },
-  mainContent: {
-    type: "div",
-    textContent:
-      "example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent example textContent ",
-  },
-  imgBox: {
-    type: "div",
-    children: {
-      outer_tg: {
-        type: "div",
-        children: {
-          tgImg: {
-            type: "img",
-            src: "../img/tg.png",
-          },
-          tgText: {
-            type: "p",
-            textContent: `Телеграм \n СтатБот`,
-          },
-        },
-      },
-      outer_contacts: {
-        type: "div",
-        children: {
-          contactsImg: {
-            type: "img",
-            src: "../img/phone.png",
-          },
-          contactsText: {
-            type: "p",
-            textContent: `Контакты \n Специалистов`,
-          },
-        },
-      },
-      outer_questions: {
-        type: "div",
-        children: {
-          contactsImg: {
-            type: "img",
-            src: "../img/questionMark.png",
-          },
-          contactsText: {
-            type: "p",
-            textContent: `Остались \n вопросы?`,
-          },
-        },
-      },
-    },
-  },
-  //   },
-  // },
 };

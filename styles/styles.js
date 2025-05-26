@@ -7,6 +7,13 @@ export const document = {
     cursor: "pointer",
     userSelect: "none",
   },
+  a: {
+    color: "black",
+    textDecoration: "none",
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+  },
 };
 
 export const menuWrapper = {
@@ -28,6 +35,7 @@ export const modal = {
   border: "2px solid rgb(120,121,126)",
   display: "flex",
   flexDirection: "column",
+  justifyContent: "space-between",
 };
 
 export const closeButton = {
