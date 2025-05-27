@@ -15,6 +15,7 @@ export class AppController {
     const {
       inner_workspaceSetup,
       inner_tutorialVideos,
+      inner_getSignature,
       navMenu,
       secondaryMenu,
       closeButton,
@@ -25,6 +26,10 @@ export class AppController {
 
     inner_workspaceSetup.addEventListener("click", () => {
       new Renderer(configs.workspaceSetup_config, "mainContent");
+    });
+
+    inner_getSignature.addEventListener("click", () => {
+      new Renderer(configs.getSignature_config, "mainContent");
     });
 
     inner_tutorialVideos.addEventListener("click", () => {
