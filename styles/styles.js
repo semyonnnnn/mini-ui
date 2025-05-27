@@ -113,3 +113,70 @@ export const secondaryMenu = {
     width: "100%",
   },
 };
+
+export const videosPlayer = {
+  self: {
+    backgroundColor: "red",
+    width: "100%",
+    // height: "100%",
+  },
+};
+
+const videos_style = {
+  width: "100%",
+  height: "auto",
+};
+export const videos_export = {
+  self: {
+    ...videos_style,
+    display: "block",
+  },
+};
+
+export const videos_renew = {
+  self: {
+    ...videos_style,
+    display: "none",
+  },
+};
+
+export const activeButton = {
+  backgroundColor: "#1757b8",
+  color: "white",
+  border: "none",
+};
+
+export const inactiveButton = {
+  backgroundColor: "white",
+  color: "black",
+  border: "1px solid black",
+};
+
+const button = {
+  userSelect: "none",
+  cursor: "pointer",
+  padding: "1rem 5rem",
+  fontWeight: "900",
+  fontSize: "20px",
+  textAlign: "center",
+};
+
+export const tutorialVideos_export = {
+  self: {
+    ...button,
+    ...activeButton,
+  },
+};
+
+export const tutorialVideos_renew = {
+  self: {
+    ...button,
+    ...inactiveButton,
+  },
+};
+
+export const videosMenu_header = {
+  fontSize: "1.1vw",
+  padding: "1rem 3rem",
+  boxShadow: "inset 0 -1px 3px black",
+};

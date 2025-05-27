@@ -1,8 +1,15 @@
-import { config } from "./configs/configs.js";
+import {
+  config,
+  tutorialVideos_config,
+  workspaceSetup_config,
+} from "./configs/configs.js";
 
+//TODO: merge this into 1 line via changing method, turning those into array
 class DomMap {
   constructor() {
     Object.assign(this, this.getDomElementsById(config));
+    Object.assign(this, this.getDomElementsById(tutorialVideos_config));
+    Object.assign(this, this.getDomElementsById(workspaceSetup_config));
 
     Object.assign(
       this,

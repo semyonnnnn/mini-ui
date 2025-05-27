@@ -1,14 +1,9 @@
 import { config } from "./configs/configs.js";
 
-import { render } from "./renderer.js";
+import { Renderer } from "./Renderer.js";
 import { Menu } from "./Menu.js";
-import { doStyles } from "./styles.js";
-import { doFunctions } from "./functions.js";
+import { AppController } from "./AppController.js";
 
-render("btn-in-row", config);
+new Renderer(config, "btn-in-row");
 new Menu();
-
-setTimeout(() => {
-  doStyles();
-  doFunctions();
-});
+new AppController();

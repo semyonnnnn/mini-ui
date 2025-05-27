@@ -75,7 +75,7 @@ export const config = {
                         children: {
                           outer_rosstatRegister_link: {
                             html: "a",
-                            textContent: "Регистрация через портал Росстата",
+                            textContent: "Регистрация через портал Росстата ⇗",
                             href: "https://websbor.rosstat.gov.ru/online/respondent-registration-request/",
                           },
                         },
@@ -90,7 +90,7 @@ export const config = {
                         children: {
                           outer_onlineReport_link: {
                             html: "a",
-                            textContent: "Предоставить отчёт ONLINE",
+                            textContent: "Предоставить отчёт ONLINE ⇗",
                             href: "https://websbor.rosstat.gov.ru/online/",
                           },
                         },
@@ -114,7 +114,7 @@ export const config = {
                         children: {
                           outer_getDataForms_link: {
                             html: "a",
-                            textContent: "Получить данные о кодах и формах",
+                            textContent: "Получить данные о кодах и формах ⇗",
                             href: "https://websbor.rosstat.gov.ru/online/info",
                           },
                         },
@@ -128,7 +128,7 @@ export const config = {
                         children: {
                           outer_FAQ_link: {
                             html: "a",
-                            textContent: "Часто задаваемые вопросы",
+                            textContent: "Часто задаваемые вопросы ⇗",
                             href: "https://websbor.rosstat.gov.ru/online/faq-respondent",
                           },
                         },
