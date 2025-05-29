@@ -16,6 +16,11 @@ export class AppController {
       inner_workspaceSetup,
       inner_tutorialVideos,
       inner_getSignature,
+      inner_replaceSignature,
+      inner_supportRegister,
+      inner_offlineReport,
+      inner_reportDigital,
+      inner_getUserDocs,
       navMenu,
       secondaryMenu,
       closeButton,
@@ -30,6 +35,23 @@ export class AppController {
 
     inner_getSignature.addEventListener("click", () => {
       new Renderer(configs.getSignature_config, "mainContent");
+    });
+
+    inner_replaceSignature.addEventListener("click", () => {
+      new Renderer(configs.replaceSignature_config, "mainContent");
+    });
+    inner_supportRegister.addEventListener("click", () => {
+      new Renderer(configs.supportRegister_config, "mainContent");
+    });
+
+    inner_offlineReport.addEventListener("click", () => {
+      new Renderer(configs.offlineReport_config, "mainContent");
+    });
+    inner_reportDigital.addEventListener("click", () => {
+      new Renderer(configs.reportDigital_config, "mainContent");
+    });
+    inner_getUserDocs.addEventListener("click", () => {
+      new Renderer(configs.getUserDocs_config, "mainContent");
     });
 
     inner_tutorialVideos.addEventListener("click", () => {

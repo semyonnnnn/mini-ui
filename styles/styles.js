@@ -1,18 +1,6 @@
 export const document = {
-  li: {
-    listStyleType: "none",
-    fontWeight: "700",
-    borderBottom: "1px solid black",
-    margin: "2px",
-    cursor: "pointer",
-    userSelect: "none",
-  },
   a: {
-    color: "black",
-    textDecoration: "none",
-    display: "flex",
-    alignItems: "center",
-    gap: "1rem",
+    display: "inline-block",
   },
 };
 
@@ -65,9 +53,19 @@ export const after = {
 };
 
 export const navMenu = {
-  display: "flex",
-  position: "relative",
-  flexDirection: "column",
+  self: {
+    display: "flex",
+    position: "relative",
+    flexDirection: "column",
+  },
+  li: {
+    listStyleType: "none",
+    fontWeight: "700",
+    borderBottom: "1px solid black",
+    margin: "2px",
+    cursor: "pointer",
+    userSelect: "none",
+  },
 };
 
 export const mainNavMenu = {
@@ -101,6 +99,13 @@ export const imgBox = {
   p: {
     margin: "0",
   },
+  a: {
+    color: "black",
+    textDecoration: "none",
+    display: "inline-block",
+    alignItems: "center",
+    gap: "1rem",
+  },
 };
 
 export const secondaryMenu = {
@@ -111,6 +116,13 @@ export const secondaryMenu = {
     padding: "1rem 0",
     boxShadow: "2px 2px 12px black",
     width: "100%",
+  },
+  a: {
+    color: "black",
+    textDecoration: "none",
+    display: "inline-block",
+    alignItems: "center",
+    gap: "1rem",
   },
 };
 
@@ -178,5 +190,5 @@ export const tutorialVideos_renew = {
 export const videosMenu_header = {
   fontSize: "1.1vw",
   padding: "1rem 3rem",
-  boxShadow: "inset 0 -1px 3px black",
+  boxShadow: "inset 0 0 3px black",
 };

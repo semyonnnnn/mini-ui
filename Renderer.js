@@ -1,24 +1,33 @@
 import * as styles from "./styles/styles.js";
+import { elements } from "./configs/specialStyles/specialStyles_config.js";
 
 export class Renderer {
   constructor(config, key) {
-    this.buildThings(config, key);
-    this.doOtherThings();
+    this.buildThings(elements, config, key);
   }
 
-  buildThings(config, key) {
-    const parent =
-      typeof key === "string"
-        ? document.getElementById(key) ?? document.querySelector("." + key)
-        : key;
-
+  buildThings(elements, config, key, isRecursive = false) {
+    const parent = this.getParentElement(key);
     if (!parent) {
       console.error(`No parent with id/class of [${key}] found in the DOM.`);
       return;
     }
 
-    !parent.classList.contains("btn-in-row") && (parent.innerHTML = "");
+    if (!isRecursive && !parent.classList.contains("btn-in-row")) {
+      parent.innerHTML = "";
+    }
 
+    this.processConfig(config, parent, isRecursive);
+    this.applySpecialStyles(elements);
+  }
+
+  getParentElement(key) {
+    return typeof key === "string"
+      ? document.getElementById(key) ?? document.querySelector("." + key)
+      : key;
+  }
+
+  processConfig(config, parent, isRecursive) {
     for (const key in config) {
       if (!config.hasOwnProperty(key)) continue;
 
@@ -26,53 +35,65 @@ export class Renderer {
       const el = document.createElement(item.html);
       el.id = key;
 
-      if (styles[key]) {
-        const style = styles[key].self ?? styles[key];
-        Object.assign(el.style, style);
-      }
-
-      for (const property in item) {
-        if (property !== "children" && property !== "html") {
-          if (property in el) {
-            el[property] = item[property];
-          } else {
-            el.setAttribute(property, item[property]);
-          }
-        }
-      }
+      this.applyElementStyles(el, key);
+      this.setElementProperties(el, item);
 
       parent.appendChild(el);
 
       if (item.children) {
-        this.buildThings(item.children, el);
+        this.buildThings(elements, item.children, el, true);
+      }
+    }
+  }
+
+  applyElementStyles(element, styleKey) {
+    if (styles[styleKey]) {
+      const style = styles[styleKey].self ?? styles[styleKey];
+      this.safeStyleAssign(element.style, style);
+    }
+  }
+
+  setElementProperties(element, item) {
+    for (const property in item) {
+      if (property === "children" || property === "html") continue;
+
+      if (property in element) {
+        element[property] = item[property];
+      } else {
+        element.setAttribute(property, item[property]);
+      }
+    }
+  }
+
+  applySpecialStyles(elements) {
+    for (const [key, selectors] of Object.entries(elements)) {
+      const parent =
+        key !== "document" ? document.getElementById(key) : document;
+      if (!parent) continue;
+
+      selectors.forEach((selector) => {
+        parent.querySelectorAll(selector).forEach((element) => {
+          if (styles[key]?.[selector]) {
+            this.safeStyleAssign(element.style, styles[key][selector]);
+          }
+        });
+      });
+    }
+  }
+
+  safeStyleAssign(targetStyle, sourceStyles) {
+    if (!sourceStyles || typeof sourceStyles !== "object") return;
+
+    // Only assign non-empty style properties
+    for (const [prop, value] of Object.entries(sourceStyles)) {
+      if (value !== undefined && value !== null && value !== "") {
+        targetStyle[prop] = value;
       }
     }
   }
 
   doOtherThings() {
-    const applyStylesQSA = (parent, selector, styles) => {
-      if (parent && selector && styles) {
-        parent.querySelectorAll(selector).forEach((element) => {
-          Object.assign(element.style, styles);
-        });
-      }
-    };
-
-    applyStylesQSA(document, "li", styles.document.li);
-    applyStylesQSA(document, "a", styles.document.a);
-
-    const imgBox =
-      document.getElementById("imgBox") || document.querySelector(".imgBox");
-    if (imgBox) {
-      applyStylesQSA(imgBox, "div", styles.imgBox.div);
-      applyStylesQSA(imgBox, "img", styles.imgBox.img);
-      applyStylesQSA(imgBox, "p", styles.imgBox.p);
-    }
-
-    // Handle mainContent overflow
-    const mainContent =
-      document.getElementById("mainContent") ||
-      document.querySelector(".mainContent");
+    const mainContent = document.getElementById("mainContent");
     if (mainContent) {
       mainContent.style.overflowY =
         mainContent.scrollHeight > mainContent.clientHeight ? "auto" : "hidden";
