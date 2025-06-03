@@ -35,6 +35,14 @@ export class AppController {
       new Renderer(configs.workspaceSetup_config, "mainContent");
     });
 
+    document.querySelector(".toggle-card").style.border = "none";
+
+    const openButton = document.querySelector(".toggle-card__header-link");
+    openButton.innerHTML = "";
+    openButton.classList = "btn btn-primary btn-lg btn-block";
+    openButton.style.color = "white";
+    openButton.textContent = "НАВИГАТОР ПО СДАЧЕ ОТЧЕТНОСТИ В ЭЛЕКТРОННОМ ВИДЕ";
+
     inner_getSignature.addEventListener("click", () => {
       new Renderer(configs.getSignature_config, "mainContent");
     });
