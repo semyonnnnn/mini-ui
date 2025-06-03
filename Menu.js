@@ -48,11 +48,12 @@ class Menu extends MenuMixins {
   initializeSubmenuListeners() {
     const entries = Object.entries(this.subMenuMap);
     entries.forEach(([, [, menu]], index) => {
-      if (index == 0) {
-        this.show(menu);
-      } else {
-        this.hide(menu);
-      }
+      this.hide(menu);
+      // if (index == 0) {
+      //   this.show(menu);
+      // } else {
+      //   this.hide(menu);
+      // }
     });
 
     entries.forEach(([key, [trigger, menu]], index, entries) => {

@@ -22,6 +22,10 @@ export class AppController {
       inner_reportDigital,
       inner_getUserDocs,
       navMenu,
+      menu_report,
+      menu_moreInfo,
+      trigger_menu_report,
+      trigger_menu_moreInfo,
       secondaryMenu,
       modal,
       mainContent,
@@ -83,7 +87,13 @@ export class AppController {
       secondaryMenu.style.display = "none";
     });
 
-    navMenu.addEventListener("mouseenter", () => {
+    trigger_menu_report.addEventListener("mouseenter", () => {
+      menu_report.style.display = styles.navMenu.li;
+      secondaryMenu.style.display = "block";
+    });
+
+    trigger_menu_moreInfo.addEventListener("mouseenter", () => {
+      menu_moreInfo.style.display = styles.navMenu.li;
       secondaryMenu.style.display = "block";
     });
 

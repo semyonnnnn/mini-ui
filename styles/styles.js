@@ -97,6 +97,7 @@ export const secondaryMenu = {
     padding: "1rem 0",
     boxShadow: "2px 2px 12px black",
     width: "100%",
+    display: "none",
   },
   a: {
     color: "black",
