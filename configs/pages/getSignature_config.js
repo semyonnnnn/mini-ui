@@ -70,25 +70,23 @@ export const getSignature_config = {
         html: "p",
         textContent:
           "3. Чтобы использовать ЭП, которую вам выдали в ФНС России, установите на компьютер ",
-      },
-      getSignature_link_1: {
-        html: "a",
-        textContent: "КриптоПроCSP",
-        href: "https://www.cryptopro.ru/products/csp",
-      },
-      getSignature_paragraph_5: {
-        html: "p",
-        textContent:
-          ". Вы также можете получить ЭП платно в любом из аккредитованных ",
-      },
-      getSignature_link_2: {
-        html: "a",
-        textContent: "удостоверяющих центров",
-        href: "https://digital.gov.ru/ru/activity/govservices/certification_authority/",
-      },
-      getSignature_paragraph_6: {
-        html: "span",
-        textContent: ".",
+        children: {
+          getSignature_link_1: {
+            html: "a",
+            textContent: "КриптоПроCSP",
+            href: "https://www.cryptopro.ru/products/csp",
+          },
+          getSignature_paragraph_5: {
+            html: "span",
+            textContent:
+              ". Вы также можете получить ЭП платно в любом из аккредитованных ",
+          },
+          getSignature_link_2: {
+            html: "a",
+            textContent: "удостоверяющих центров.",
+            href: "https://digital.gov.ru/ru/activity/govservices/certification_authority/",
+          },
+        },
       },
     },
   },
