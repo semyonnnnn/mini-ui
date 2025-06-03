@@ -177,7 +177,7 @@ export const config = {
                 children: {
                   tgImg: {
                     html: "img",
-                    src: "../img/tg.png",
+                    src: "https://66.rosstat.gov.ru/storage/mediabank/tg.png",
                   },
                   tgText: {
                     html: "p",
@@ -196,7 +196,7 @@ export const config = {
                 children: {
                   contactsImg: {
                     html: "img",
-                    src: "../img/phone.png",
+                    src: "https://66.rosstat.gov.ru/storage/mediabank/phone.png",
                   },
                   contactsText: {
                     html: "p",
@@ -216,7 +216,7 @@ export const config = {
                 children: {
                   contactsImg: {
                     html: "img",
-                    src: "../img/questionMark.png",
+                    src: "https://66.rosstat.gov.ru/storage/mediabank/questionMark.png",
                   },
                   contactsText: {
                     html: "p",
