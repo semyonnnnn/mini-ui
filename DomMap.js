@@ -7,16 +7,10 @@ import {
 //TODO: merge this into 1 line via changing method, turning those into array
 class DomMap {
   constructor() {
-    Object.assign(this, this.getDomElementsById(config));
-    Object.assign(this, this.getDomElementsById(tutorialVideos_config));
-    Object.assign(this, this.getDomElementsById(workspaceSetup_config));
-
-    Object.assign(
-      this,
-      this.getElementsBySelector({
-        statNavButton: ".btn.btn-primary.btn-lg.btn-block",
-      })
-    );
+    // Apply elements from configs
+    [config, tutorialVideos_config, workspaceSetup_config].forEach((conf) => {
+      Object.assign(this, this.getDomElementsById(conf));
+    });
   }
 
   getElementsBySelector = (selectors) => {

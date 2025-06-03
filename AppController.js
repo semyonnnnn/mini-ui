@@ -23,9 +23,7 @@ export class AppController {
       inner_getUserDocs,
       navMenu,
       secondaryMenu,
-      closeButton,
       modal,
-      statNavButton,
       mainContent,
     } = this.DomElements;
 
@@ -87,15 +85,6 @@ export class AppController {
 
     navMenu.addEventListener("mouseenter", () => {
       secondaryMenu.style.display = "block";
-    });
-
-    closeButton.addEventListener("click", () => {
-      modal.style.visibility = "hidden";
-    });
-
-    statNavButton.addEventListener("click", () => {
-      modal.style.visibility = "visible";
-      this.updateOverflow();
     });
 
     window.addEventListener("resize", this.updateOverflow.bind(this));

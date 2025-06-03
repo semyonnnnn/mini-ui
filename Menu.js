@@ -21,7 +21,6 @@ class Menu extends MenuMixins {
     const {
       wrapper,
       modal,
-      closeButton,
       before,
       after,
       navMenu,

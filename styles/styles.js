@@ -10,11 +10,10 @@ export const menuWrapper = {
 };
 
 export const modal = {
+  marginTop: "1rem",
   width: "100%",
-  height: "100vh",
-  visibility: "hidden",
-  position: "absolute",
-  marginLeft: "1rem",
+  height: "100%",
+  position: "relative",
   padding: "1rem",
   inset: "0",
   zIndex: "1",
@@ -26,30 +25,12 @@ export const modal = {
   justifyContent: "space-between",
 };
 
-export const closeButton = {
-  position: "relative",
-  float: "right",
-  width: "50px",
-  height: "50px",
-  zIndex: "1",
-  cursor: "pointer",
-};
-
 const crossLineStyles = {
   position: "absolute",
   top: "50%",
   width: "100%",
   height: "3px",
   backgroundColor: "black",
-};
-
-export const before = {
-  ...crossLineStyles,
-  transform: "rotate(45deg)",
-};
-export const after = {
-  ...crossLineStyles,
-  transform: "rotate(-45deg)",
 };
 
 export const navMenu = {

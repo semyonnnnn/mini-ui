@@ -149,17 +149,6 @@ export const config = {
               },
             },
           },
-          closeButton: {
-            html: "div",
-            children: {
-              before: {
-                html: "div",
-              },
-              after: {
-                html: "div",
-              },
-            },
-          },
         },
       },
       mainContent: {

@@ -1,41 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toggle on Link Click</title>
   <style>
-    #wrapper {
-      position: absolute;
-      width: 100%;
-      height: 100vh;
-      background-color: rgb(120, 120, 120);
-      z-index: 1;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .toggle-card__main {
+      display: none;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-top: 1px solid #ccc;
+    }
+
+    .toggle-card.open .toggle-card__main {
+      display: block;
+    }
+
+    .toggle-card__header-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 1rem;
+      background: #e0e0e0;
+    }
+
+    .toggle-card__btn::before {
+      content: "▼";
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-card.open .toggle-card__btn::before {
+      transform: rotate(180deg);
     }
   </style>
 </head>
-
 <body>
-  <div style="width: 45vw; position: relative">
-    fake wrapper to simulate not full width
-    <div id="wrapper">
-      <div class="btn-in-row">
-        btn-in-row wrapper 1 rem margin left
-        <!-- not for prod -->
-        <button class="btn btn-primary btn-lg btn-block" style="padding: 6px 12px; cursor: pointer">
-          открыть
-        </button>
-        <!-- <div id="modal"> -->
-          <!-- <script type="module" src="app.js"></script> -->
-           <script src="./dist/bundle.js"></script>
-        <!-- </div> -->
-        
+    <script type="module" src="./app.js"></script>
+    <!-- <script type="module" src="./dist/bundle.js"></script> -->
+
+  <div class="col-12 mb-2">
+    <div class="toggle-card toggle-card--small toggle-card--arr open" id="toggleCard">
+      <div class="toggle-card__header">
+        <a class="toggle-card__header-link" href="#" id="toggleLink">
+          <div class="toggle-card__title">Title</div>
+          <div class="toggle-card__btn"></div>
+        </a>
+      </div>
+      <div class="toggle-card__main">
+        <div class="toggle-card__main-content">
+          <div class="document-list">
+            <div class="document-list__items">
+              <div class="content">
+                <div class="dragscroll">
+                  <table style="width: 755.566px;">
+                    <tbody>
+                      <tr><td>Sample Table Row</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</body>
 
+  <script type="module">
+    const link = document.getElementById('toggleLink');
+    const card = document.getElementById('toggleCard');
+
+    link.addEventListener('click', (e) => {
+      e.preventDefault(); // prevent page jump
+      card.classList.toggle('open');
+    });
+  </script>
+
+</body>
 </html>
