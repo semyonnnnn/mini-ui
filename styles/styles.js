@@ -25,6 +25,10 @@ export const modal = {
   justifyContent: "space-between",
 };
 
+export const toggleCardHeaderLink = {
+  color: "white",
+};
+
 const crossLineStyles = {
   position: "absolute",
   top: "50%",
@@ -116,22 +120,9 @@ export const videosPlayer = {
   },
 };
 
-const videos_style = {
+export const video = {
   width: "100%",
   height: "auto",
-};
-export const videos_export = {
-  self: {
-    ...videos_style,
-    display: "block",
-  },
-};
-
-export const videos_renew = {
-  self: {
-    ...videos_style,
-    display: "none",
-  },
 };
 
 export const activeButton = {
@@ -162,7 +153,7 @@ export const tutorialVideos_export = {
   },
 };
 
-export const tutorialVideos_renew = {
+export const tutorialVideos_update = {
   self: {
     ...button,
     ...inactiveButton,

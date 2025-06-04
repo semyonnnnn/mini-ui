@@ -1,9 +1,13 @@
 import * as styles from "./styles/styles.js";
 import { elements } from "./configs/specialStyles/specialStyles_config.js";
+import { nativeByClasses } from "./configs/native-elements.js";
 
 export class Renderer {
   constructor(config, key) {
     this.buildThings(elements, config, key);
+    document.addEventListener("DOMContentLoaded", () => {
+      this.applyExistingElementStyles();
+    });
   }
 
   buildThings(elements, config, key, isRecursive = false) {
@@ -25,6 +29,21 @@ export class Renderer {
     return typeof key === "string"
       ? document.getElementById(key) ?? document.querySelector("." + key)
       : key;
+  }
+
+  applyExistingElementStyles() {
+    for (const key in nativeByClasses) {
+      const style = styles[key]?.self ?? styles[key];
+      if (!style) continue;
+
+      const el = document.querySelector(nativeByClasses[key]);
+      if (!el) {
+        console.warn(`No element found for selector '${nativeByClasses[key]}'`);
+        continue;
+      }
+
+      this.safeStyleAssign(el.style, style);
+    }
   }
 
   processConfig(config, parent, isRecursive) {

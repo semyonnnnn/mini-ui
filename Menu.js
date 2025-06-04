@@ -18,19 +18,7 @@ class Menu extends MenuMixins {
 
   buildSubMenuMap() {
     const DomElements = new DomMap();
-    const {
-      wrapper,
-      modal,
-      before,
-      after,
-      navMenu,
-      menuWrapper,
-      mainNavMenu,
-      secondaryMenu,
-      mainContent,
-      imgBox,
-      statNavButton,
-    } = DomElements;
+    const { navMenu, secondaryMenu } = DomElements;
     const entries = Array.from(this.selectAll(navMenu, this.full_prefix)).map(
       (trigger) => {
         const key = this.extractKeyFromId(trigger.id);
@@ -66,7 +54,6 @@ class Menu extends MenuMixins {
         this.show(menu);
       });
 
-      // console.log("trigger.id.includes('menu'):", trigger.id.includes("menu"));
       (trigger.id.includes("moreInfo") || trigger.id.includes("report")) &&
         trigger.addEventListener("mouseover", () => {
           entries.forEach(([otherKey, [otherTrigger, otherMenu]], i) => {

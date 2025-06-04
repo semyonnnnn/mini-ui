@@ -9,6 +9,16 @@ export class AppController {
     this.navMenuMap = {};
     this.bindEvents();
     this.generateNavMenuMap();
+
+    this.setupNatives();
+  }
+
+  setupNatives() {
+    const { toggleCardHeaderLink } = this.DomElements;
+    toggleCardHeaderLink.innerHTML = "";
+    toggleCardHeaderLink.classList = "btn btn-primary btn-lg btn-block";
+    toggleCardHeaderLink.textContent =
+      "НАВИГАТОР ПО СДАЧЕ ОТЧЕТНОСТИ В ЭЛЕКТРОННОМ ВИДЕ";
   }
 
   bindEvents() {
@@ -27,21 +37,11 @@ export class AppController {
       trigger_menu_report,
       trigger_menu_moreInfo,
       secondaryMenu,
-      modal,
-      mainContent,
     } = this.DomElements;
 
     inner_workspaceSetup.addEventListener("click", () => {
       new Renderer(configs.workspaceSetup_config, "mainContent");
     });
-
-    document.querySelector(".toggle-card").style.border = "none";
-
-    const openButton = document.querySelector(".toggle-card__header-link");
-    openButton.innerHTML = "";
-    openButton.classList = "btn btn-primary btn-lg btn-block";
-    openButton.style.color = "white";
-    openButton.textContent = "НАВИГАТОР ПО СДАЧЕ ОТЧЕТНОСТИ В ЭЛЕКТРОННОМ ВИДЕ";
 
     inner_getSignature.addEventListener("click", () => {
       new Renderer(configs.getSignature_config, "mainContent");
@@ -67,25 +67,41 @@ export class AppController {
     inner_tutorialVideos.addEventListener("click", () => {
       new Renderer(configs.tutorialVideos_config, "mainContent");
       const DomElements = new DomMap();
-      const {
-        tutorialVideos_renew,
-        tutorialVideos_export,
-        videos_export,
-        videos_renew,
-      } = DomElements;
-      tutorialVideos_export.addEventListener("click", () => {
-        console.log(videos_export);
-        videos_export.style.display = "block";
-        videos_renew.style.display = "none";
-        Object.assign(tutorialVideos_export.style, styles.activeButton);
-        Object.assign(tutorialVideos_renew.style, styles.inactiveButton);
-        videos_renew.pause();
+      const { tutorialVideos_update, tutorialVideos_export, video, canvas } =
+        DomElements;
+
+      const context = canvas.getContext("2d");
+
+      console.log(context);
+
+      video.addEventListener("play", () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        function drawFrame() {
+          if (!video.paused && !video.ended) {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(drawFrame);
+          }
+        }
+
+        drawFrame();
       });
-      tutorialVideos_renew.addEventListener("click", () => {
-        console.log(videos_export);
-        videos_renew.style.display = "block";
+
+      video.play();
+
+      tutorialVideos_export.addEventListener("click", () => {
+        videos_export.style.display = "block";
+        videos_update.style.display = "none";
+        Object.assign(tutorialVideos_export.style, styles.activeButton);
+        Object.assign(tutorialVideos_update.style, styles.inactiveButton);
+        videos_update.pause();
+      });
+
+      tutorialVideos_update.addEventListener("click", () => {
+        videos_update.style.display = "block";
         videos_export.style.display = "none";
-        Object.assign(tutorialVideos_renew.style, styles.activeButton);
+        Object.assign(tutorialVideos_update.style, styles.activeButton);
         Object.assign(tutorialVideos_export.style, styles.inactiveButton);
         videos_export.pause();
       });

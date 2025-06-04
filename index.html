@@ -35,6 +35,16 @@
     .toggle-card.open .toggle-card__btn::before {
       transform: rotate(180deg);
     }
+    .btn{
+      text-decoration: none;
+     }
+     .btn-block{
+      display: block;
+      padding: 1rem 1.5rem;
+     }
+    .btn-primary{
+      background-color: blue;
+    }
   </style>
 </head>
 <body>
@@ -42,7 +52,7 @@
     <!-- <script type="module" src="./dist/bundle.js"></script> -->
 
   <div class="col-12 mb-2">
-    <div class="toggle-card toggle-card--small toggle-card--arr open" id="toggleCard">
+    <div class="toggle-card toggle-card--small toggle-card--arr open">
       <div class="toggle-card__header">
         <a class="toggle-card__header-link" href="#" id="toggleLink">
           <div class="toggle-card__title">Title</div>
@@ -70,8 +80,8 @@
   </div>
 
   <script type="module">
-    const link = document.getElementById('toggleLink');
-    const card = document.getElementById('toggleCard');
+    const link = document.querySelector('.toggle-card__header-link');
+    const card = document.querySelector('.toggle-card');
 
     link.addEventListener('click', (e) => {
       e.preventDefault(); // prevent page jump

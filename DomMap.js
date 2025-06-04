@@ -4,6 +4,8 @@ import {
   workspaceSetup_config,
 } from "./configs/configs.js";
 
+import { nativeByClasses } from "./configs/native-elements.js";
+
 //TODO: merge this into 1 line via changing method, turning those into array
 class DomMap {
   constructor() {
@@ -11,15 +13,15 @@ class DomMap {
     [config, tutorialVideos_config, workspaceSetup_config].forEach((conf) => {
       Object.assign(this, this.getDomElementsById(conf));
     });
+    this.getNativesByClasses(nativeByClasses);
   }
 
-  getElementsBySelector = (selectors) => {
-    return Object.fromEntries(
-      Object.entries(selectors).map(([key, selector]) => [
-        key,
-        document.querySelector(selector),
-      ])
-    );
+  getNativesByClasses = () => {
+    for (const key in nativeByClasses) {
+      Object.assign(this, {
+        [key]: document.querySelector(nativeByClasses[key]),
+      });
+    }
   };
 
   getDomElementsById(items, object = {}) {
