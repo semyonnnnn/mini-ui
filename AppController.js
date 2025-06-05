@@ -82,7 +82,18 @@ export class AppController {
 
       console.log(ctx);
 
+      video.addEventListener("ended", () => {
+        pause.style.display = "none";
+        play.style.display = "block";
+        progress.style.width = "0";
+      });
+
+      video.addEventListener("play", () => {
+        console.log("this video has been unpaused");
+      });
+
       video.addEventListener("loadedmetadata", () => {
+        // progress.style.width = "0";
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
@@ -93,6 +104,19 @@ export class AppController {
             requestAnimationFrame(updateProgress);
           }
         }
+
+        updateProgress();
+
+        if (video.paused) {
+          console.log("this video has been paused");
+        }
+
+        if (video.currentTime === video.duration) {
+          console.log("video ended");
+          pause.style.display = "none";
+          play.style.display = "block";
+        }
+
         [pause, play, canvasCover].forEach((element) => {
           element.addEventListener("click", () => {
             if (video.paused || video.ended) {

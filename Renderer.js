@@ -76,10 +76,16 @@ export class Renderer {
     for (const property in item) {
       if (property === "children" || property === "html") continue;
 
-      if (property in element) {
-        element[property] = item[property];
+      const actualProperty = property.includes("$")
+        ? property.replace(/\$/g, "-") // fixed: use /\$/g not /$/g
+        : property;
+
+      console.log(actualProperty);
+
+      if (actualProperty in element) {
+        element[actualProperty] = item[property];
       } else {
-        element.setAttribute(property, item[property]);
+        element.setAttribute(actualProperty, item[property]);
       }
     }
   }

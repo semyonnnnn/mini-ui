@@ -18,15 +18,14 @@ export const pauseStickTwo = { ...pauseStick };
 
 export const play = {
   cursor: "pointer",
-
-  display: "none",
+  display: "block",
   bottom: "0",
-  width: "0",
-  height: "0",
-  borderLeft: "25px solid rgb(200, 200, 200)",
-  borderRight: "0 solid transparent",
-  borderTop: "20px solid transparent",
-  borderBottom: "20px solid transparent",
+  //   width: "0",
+  //   height: "0",
+  //   borderLeft: "25px solid rgb(200, 200, 200)",
+  //   borderRight: "0 solid transparent",
+  //   borderTop: "20px solid transparent",
+  //   borderBottom: "20px solid transparent",
 };
 
 export const videosPlayer = {
@@ -54,23 +53,38 @@ export const progress = {
   height: ".3rem",
 
   display: "block",
-  backgroundColor: "rgb(255,1,44)",
+  backgroundColor: "rgb(162, 1, 255)",
 };
 
 export const length = {
+  zIndex: "3",
   position: "absolute",
   display: "block",
   height: ".3rem",
   width: "100%",
   bottom: "2.5rem",
+  left: "0",
   backgroundColor: "rgba(200,200,200,.8)",
 };
+export const controlsBlockWrapper = {
+  position: "absolute",
+  zIndex: "2",
+  bottom: "0",
+  left: "0",
+  width: "100%",
+};
 export const controlsBlock = {
+  paddingLeft: "2rem",
+  paddingRight: "2rem",
+  boxSizing: "border-box",
+  display: "block",
+  zIndex: "2",
+  bottom: "0",
+  left: "0",
   width: "100%",
   zIndex: "2",
-  position: "absolute",
+  position: "relative",
   backgroundColor: "rgba(0,0,255,.3)",
-  bottom: "0",
 };
 export const canvasCover = {
   position: "absolute",
@@ -78,6 +92,6 @@ export const canvasCover = {
   left: "0",
   width: "100%",
   height: "100%",
-  background: "rgba(0,255,0,.3)",
+  background: "transparent",
   zIndex: "1",
 };
