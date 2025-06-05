@@ -67,20 +67,54 @@ export class AppController {
     inner_tutorialVideos.addEventListener("click", () => {
       new Renderer(configs.tutorialVideos_config, "mainContent");
       const DomElements = new DomMap();
-      const { tutorialVideos_update, tutorialVideos_export, video, canvas } =
-        DomElements;
+      const {
+        tutorialVideos_update,
+        tutorialVideos_export,
+        video,
+        canvas,
+        pause,
+        play,
+        progress,
+        canvasCover,
+      } = DomElements;
 
-      const context = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d");
 
-      console.log(context);
+      console.log(ctx);
 
-      video.addEventListener("play", () => {
+      video.addEventListener("loadedmetadata", () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
+        function updateProgress() {
+          if (!video.paused && !video.ended) {
+            const percent = (video.currentTime / video.duration) * 100;
+            progress.style.width = percent + "%";
+            requestAnimationFrame(updateProgress);
+          }
+        }
+        [pause, play, canvasCover].forEach((element) => {
+          element.addEventListener("click", () => {
+            if (video.paused || video.ended) {
+              // Play
+              pause.style.display = "flex";
+              play.style.display = "none";
+              video.play();
+              requestAnimationFrame(updateProgress);
+              drawFrame();
+            } else {
+              // Pause
+              pause.style.display = "none";
+              play.style.display = "block";
+              video.pause();
+            }
+          });
+        });
+
         function drawFrame() {
           if (!video.paused && !video.ended) {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
             requestAnimationFrame(drawFrame);
           }
         }

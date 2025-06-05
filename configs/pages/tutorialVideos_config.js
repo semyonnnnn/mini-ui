@@ -19,16 +19,45 @@ export const tutorialVideos_config = {
   },
   videosPlayer: {
     html: "div",
+    height: "100%",
     children: {
       video: {
         html: "video",
-        width: "320",
-        height: "240",
         controls: "controls",
-        src: "https://66.rosstat.gov.ru/storage/mediabank/cer-export-c.mp4",
+        src: "http://localhost:5500/media/mov_bbb.mp4",
       },
       canvas: {
         html: "canvas",
+      },
+      canvasCover: {
+        html: "div",
+      },
+      controlsBlock: {
+        html: "div",
+        children: {
+          pause: {
+            html: "div",
+            children: {
+              pauseStickOne: {
+                html: "div",
+              },
+              pauseStickTwo: {
+                html: "div",
+              },
+            },
+          },
+          play: {
+            html: "div",
+          },
+          length: {
+            html: "div",
+            children: {
+              progress: {
+                html: "div",
+              },
+            },
+          },
+        },
       },
     },
   },

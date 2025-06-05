@@ -1,3 +1,5 @@
+export * from "./video-styles.js";
+
 export const document = {
   a: {
     display: "inline-block",
@@ -27,14 +29,6 @@ export const modal = {
 
 export const toggleCardHeaderLink = {
   color: "white",
-};
-
-const crossLineStyles = {
-  position: "absolute",
-  top: "50%",
-  width: "100%",
-  height: "3px",
-  backgroundColor: "black",
 };
 
 export const navMenu = {
@@ -110,19 +104,6 @@ export const secondaryMenu = {
     alignItems: "center",
     gap: "1rem",
   },
-};
-
-export const videosPlayer = {
-  self: {
-    backgroundColor: "red",
-    width: "100%",
-    // height: "100%",
-  },
-};
-
-export const video = {
-  width: "100%",
-  height: "auto",
 };
 
 export const activeButton = {
