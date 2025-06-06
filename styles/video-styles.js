@@ -1,11 +1,9 @@
 export const pause = {
-  cursor: "pointer",
   display: "flex",
-  justifyContent: "space-between",
-  gap: ".5rem",
-  width: "3rem",
-  height: "2.5rem",
-  bottom: "0",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "1px",
+  cursor: "pointer",
 };
 const pauseStick = {
   display: "block",
@@ -16,25 +14,46 @@ const pauseStick = {
 export const pauseStickOne = { ...pauseStick };
 export const pauseStickTwo = { ...pauseStick };
 
-export const play = {
-  cursor: "pointer",
-  display: "block",
+export const maxMinWrapper = {
+  position: "absolute",
+  width: "3rem",
+  height: "2.5rem",
   bottom: "0",
-  //   width: "0",
-  //   height: "0",
-  //   borderLeft: "25px solid rgb(200, 200, 200)",
-  //   borderRight: "0 solid transparent",
-  //   borderTop: "20px solid transparent",
-  //   borderBottom: "20px solid transparent",
+  right: "0",
+  zIndex: "3",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+export const maximize = {
+  alignItems: "center",
+  justifyContent: "center",
+  height: "1px",
+  cursor: "pointer",
+  display: "flex",
+};
+
+export const play = {
+  alignItems: "center",
+  justifyContent: "center",
+  height: "1px",
+  cursor: "pointer",
+  display: "none",
+};
+export const replay = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "1px",
+  display: "none",
+  cursor: "pointer",
 };
 
 export const videosPlayer = {
-  self: {
-    backgroundColor: "rgba(255,0,0,.2)",
-    height: "fit-content",
-    width: "100%",
-    position: "relative",
-  },
+  backgroundColor: "rgba(255,0,0,.2)",
+  width: "auto",
+  position: "relative",
 };
 
 export const video = {
@@ -45,33 +64,39 @@ export const video = {
 export const canvas = {
   display: "block",
   width: "100%",
-  height: "100%",
   position: "relative",
 };
 
 export const progress = {
-  height: ".3rem",
+  height: ".18rem",
 
   display: "block",
-  backgroundColor: "rgb(162, 1, 255)",
+  backgroundColor: "#1657b8",
 };
-
-export const length = {
+export const lengthWrapper = {
+  paddingLeft: ".5em",
+  paddingRight: ".5rem",
+  boxSizing: "border-box",
   zIndex: "3",
   position: "absolute",
   display: "block",
-  height: ".3rem",
+  height: ".1rem",
   width: "100%",
   bottom: "2.5rem",
   left: "0",
+};
+
+export const length = {
+  height: ".18rem",
   backgroundColor: "rgba(200,200,200,.8)",
 };
 export const controlsBlockWrapper = {
-  position: "absolute",
+  position: "relative",
   zIndex: "2",
   bottom: "0",
   left: "0",
   width: "100%",
+  boxSizing: "border-box",
 };
 export const controlsBlock = {
   paddingLeft: "2rem",
@@ -83,8 +108,32 @@ export const controlsBlock = {
   left: "0",
   width: "100%",
   zIndex: "2",
-  position: "relative",
   backgroundColor: "rgba(0,0,255,.3)",
+  position: "relative",
+};
+export const stopPlayWrapper = {
+  position: "relative",
+  width: "3rem",
+  height: "2.5rem",
+  bottom: "0",
+  left: "0",
+  zIndex: "3",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+export const controlsWrapper = {
+  backgroundColor: "rgba(0,0,255,.3)",
+  position: "absolute",
+  bottom: "0",
+  left: "0",
+  right: "0",
+  zIndex: "3",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
+  height: "2.5rem",
 };
 export const canvasCover = {
   position: "absolute",

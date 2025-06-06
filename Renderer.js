@@ -51,6 +51,13 @@ export class Renderer {
       if (!config.hasOwnProperty(key)) continue;
 
       const item = config[key];
+      if (item.html === "svg") {
+        document.addEventListener("DOMContentLoaded", () => {
+          this.processConfig(config, parent, isRecursive);
+          el.setAttribute("preserveAspectRatio", "xMidYMid meet");
+        });
+      }
+
       const el = document.createElement(item.html);
       el.id = key;
 
@@ -63,6 +70,11 @@ export class Renderer {
         this.buildThings(elements, item.children, el, true);
       }
     }
+    parent.offsetHeight; // Trigger reflow
+    setTimeout(() => {
+      const play = document.getElementById("play");
+      const wrapper = document.getElementById("controlsBlockWrapper");
+    }, 100);
   }
 
   applyElementStyles(element, styleKey) {
@@ -77,10 +89,8 @@ export class Renderer {
       if (property === "children" || property === "html") continue;
 
       const actualProperty = property.includes("$")
-        ? property.replace(/\$/g, "-") // fixed: use /\$/g not /$/g
+        ? property.replace(/\$/g, "-")
         : property;
-
-      console.log(actualProperty);
 
       if (actualProperty in element) {
         element[actualProperty] = item[property];

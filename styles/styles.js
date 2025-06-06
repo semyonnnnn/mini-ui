@@ -67,7 +67,6 @@ export const imgBox = {
   },
   div: {
     display: "flex",
-    width: "fit-content",
     alignItems: "center",
     gap: "1rem",
   },

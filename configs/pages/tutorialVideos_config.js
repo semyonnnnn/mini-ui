@@ -32,89 +32,49 @@ export const tutorialVideos_config = {
       canvasCover: {
         html: "div",
       },
-      length: {
+      lengthWrapper: {
         html: "div",
         children: {
-          progress: {
+          length: {
             html: "div",
+            children: {
+              progress: {
+                html: "div",
+              },
+            },
           },
         },
       },
-      controlsBlockWrapper: {
+      controlsWrapper: {
         html: "div",
         children: {
-          controlsBlock: {
+          stopPlayWrapper: {
             html: "div",
             children: {
               pause: {
                 html: "div",
-                children: {
-                  pauseStickOne: {
-                    html: "div",
-                  },
-                  pauseStickTwo: {
-                    html: "div",
-                  },
-                },
+                innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" style="width: 1.6rem; height: 1.6rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M8,7h6v18H8V7z M18,7v18h6V7H18z"></path></g></svg>`,
               },
               play: {
-                html: "svg",
-                fill: "#ffffff",
-                viewBox: "-5.44 -5.44 42.88 42.88",
-                version: "1.1",
-                xmlns: "http://www.w3.org/2000/svg",
-                stroke: "#ffffff",
-                transform: "matrix(1, 0, 0, 1, 0, 0)",
-                stroke$width: "0.00032",
-                children: {
-                  SVGRepo_bgCarrier: {
-                    html: "g",
-                    id: "SVGRepo_bgCarrier",
-                    stroke$width: "0",
-                    transform: "translate(0,0), scale(1)",
-                    children: {
-                      path: {
-                        html: "path",
-                        transform: "translate(-5.44, -5.44), scale(1.34)",
-                        d: "M16,27.992168812767453C17.89933950657614,27.518615881326074,18.30770773572769,24.48317972519721,20.20993392941569,24.02135892860521C23.064602552490733,23.328304999535543,26.40673057567576,26.498248655459957,28.852939427119473,24.871743521349863C30.897249597046926,23.512464249206737,29.624875296038432,20.12206462960074,29.760854649306783,17.670870262352096C29.889041901659667,15.360138056556224,31.045783039229942,12.662271404954403,29.63189563638133,10.830103915166951C28.11232605119666,8.860989552286348,24.966961533295304,9.419355351829484,22.665400207202033,8.476318469967083C21.158870200531474,7.859036043548187,19.84941932870454,6.987742940838153,18.407801061248847,6.231167084824731C16.539445986708316,5.250635433854258,14.984590885329979,3.192692910763525,12.879767578950638,3.3407194355439724C10.827585438814213,3.48504384961721,9.623312909678965,5.706997782821594,7.994373115880357,6.9635152801020155C6.249170618091998,8.309714496989514,3.9225895856271067,9.078448460690218,2.9060845051679607,11.034132870618361C1.8720720112611107,13.023500314892358,1.8820249478414308,15.475224054443657,2.441806988890896,17.646262684319048C2.977887294723092,19.725377352762415,4.518261377216818,21.341567100802852,5.971334337975142,22.922288097547867C7.287589648583682,24.354172430093854,8.78664327387911,25.559215443441207,10.522394533063649,26.436705244370618C12.241273709990846,27.30566555121329,14.131168423435174,28.458115352808537,16,27.992168812767453",
-                        fill: "#7876d0",
-                        stroke$width: "0",
-                      },
-                    },
-                  },
-                  SVGRepo_tracerCarrier: {
-                    html: "g",
-                    id: "SVGRepo_tracerCarrier",
-                    stroke$linecap: "round",
-                    stroke$linejoin: "round",
-                    stroke: "#CCCCCC",
-                    stroke$width: "2.24",
-                    children: {
-                      title: {
-                        html: "title",
-                        textContent: "play",
-                      },
-                      path: {
-                        html: "path",
-                        d: "M5.92 24.096q0 1.088 0.928 1.728 0.512 0.288 1.088 0.288 0.448 0 0.896-0.224l16.16-8.064q0.48-0.256 0.8-0.736t0.288-1.088-0.288-1.056-0.8-0.736l-16.16-8.064q-0.448-0.224-0.896-0.224-0.544 0-1.088 0.288-0.928 0.608-0.928 1.728v16.16z",
-                      },
-                    },
-                  },
-                  SVGRepo_iconCarrier: {
-                    html: "g",
-                    id: "SVGRepo_iconCarrier",
-                    children: {
-                      title: {
-                        html: "title",
-                        textContent: "play",
-                      },
-                      path: {
-                        html: "path",
-                        d: "M5.92 24.096q0 1.088 0.928 1.728 0.512 0.288 1.088 0.288 0.448 0 0.896-0.224l16.16-8.064q0.48-0.256 0.8-0.736t0.288-1.088-0.288-1.056-0.8-0.736l-16.16-8.064q-0.448-0.224-0.896-0.224-0.544 0-1.088 0.288-0.928 0.608-0.928 1.728v16.16z",
-                      },
-                    },
-                  },
-                },
+                html: "div",
+                innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" stroke="#ffffff" style="width: 1.4rem; height: 1.4rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M23,16L9,26V6L23,16z"></path></g></svg>`,
+              },
+              replay: {
+                html: "div",
+                innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" stroke="#ffffff" stroke-width="0.00032" style="width: 1.3rem; height: 1.3rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M26,18c0,6.065-4.935,11-11,11S4,24.065,4,18c0-2.938,1.145-5.701,3.222-7.778l2.828,2.828C8.728,14.372,8,16.13,8,18c0,3.859,3.141,7,7,7s7-3.141,7-7c0-1.869-0.729-3.628-2.051-4.95c-1.109-1.11-2.526-1.794-4.058-1.987l2.523,2.523l-2.828,2.828L8.172,9l7.414-7.414l2.828,2.828L15.79,7.038c2.64,0.187,5.099,1.294,6.989,3.183C24.856,12.301,26,15.062,26,18z"></path></g></svg>`,
+              },
+            },
+          },
+          maxMinWrapper: {
+            html: "div",
+            children: {
+              maximize: {
+                html: "div",
+                innerHTML: `<svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" stroke="#ffffff" style="width: 1rem; height: 1rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>full_screen [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-300.000000, -4199.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M262.4445,4039 L256.0005,4039 L256.0005,4041 L262.0005,4041 L262.0005,4047 L264.0005,4047 L264.0005,4039.955 L264.0005,4039 L262.4445,4039 Z M262.0005,4057 L256.0005,4057 L256.0005,4059 L262.4445,4059 L264.0005,4059 L264.0005,4055.955 L264.0005,4051 L262.0005,4051 L262.0005,4057 Z M246.0005,4051 L244.0005,4051 L244.0005,4055.955 L244.0005,4059 L246.4445,4059 L252.0005,4059 L252.0005,4057 L246.0005,4057 L246.0005,4051 Z M246.0005,4047 L244.0005,4047 L244.0005,4039.955 L244.0005,4039 L246.4445,4039 L252.0005,4039 L252.0005,4041 L246.0005,4041 L246.0005,4047 Z" id="full_screen-[#ffffff]"> </path> </g> </g> </g> </g></svg>`,
+              },
+              minimize: {
+                html: "div",
+                innerHTML: ``,
               },
             },
           },
