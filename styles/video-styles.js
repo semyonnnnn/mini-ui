@@ -15,7 +15,7 @@ export const pauseStickOne = { ...pauseStick };
 export const pauseStickTwo = { ...pauseStick };
 
 export const maxMinWrapper = {
-  position: "absolute",
+  position: "relative",
   width: "3rem",
   height: "2.5rem",
   bottom: "0",
@@ -68,14 +68,13 @@ export const canvas = {
 };
 
 export const progress = {
-  height: ".18rem",
-
+  height: "100%",
   display: "block",
   backgroundColor: "#1657b8",
 };
 export const lengthWrapper = {
-  paddingLeft: ".5em",
-  paddingRight: ".5rem",
+  paddingLeft: "1em",
+  paddingRight: "1rem",
   boxSizing: "border-box",
   zIndex: "3",
   position: "absolute",
@@ -98,19 +97,6 @@ export const controlsBlockWrapper = {
   width: "100%",
   boxSizing: "border-box",
 };
-export const controlsBlock = {
-  paddingLeft: "2rem",
-  paddingRight: "2rem",
-  boxSizing: "border-box",
-  display: "block",
-  zIndex: "2",
-  bottom: "0",
-  left: "0",
-  width: "100%",
-  zIndex: "2",
-  backgroundColor: "rgba(0,0,255,.3)",
-  position: "relative",
-};
 export const stopPlayWrapper = {
   position: "relative",
   width: "3rem",
@@ -123,7 +109,10 @@ export const stopPlayWrapper = {
   justifyContent: "center",
 };
 export const controlsWrapper = {
-  backgroundColor: "rgba(0,0,255,.3)",
+  paddingLeft: "1rem",
+  paddingRight: "1rem",
+  boxSizing: "border-box",
+  // backgroundColor: "rgba(0,0,255,.3)",
   position: "absolute",
   bottom: "0",
   left: "0",
