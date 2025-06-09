@@ -1,4 +1,5 @@
-import DomMap from "./DomMap.js";
+import { DomMap } from "../DomMap.js";
+import { hide, show } from "../styles/helpers/style-functions.js";
 
 class Video {
   constructor() {
@@ -37,38 +38,28 @@ class Video {
 
   bindEvents() {
     this.video.addEventListener("ended", () => this.onVideoEnded());
-
-    this.video.addEventListener("play", () => {
-      // console.log("Video started");
-    });
-
     this.video.addEventListener("loadedmetadata", () =>
       this.onLoadedMetadata()
     );
 
     this.maximize.addEventListener("click", () => this.onMaximizeClick());
-
-    this.tutorialVideos_export.addEventListener("click", () =>
-      this.onExportClick()
-    );
-    this.tutorialVideos_update.addEventListener("click", () =>
-      this.onUpdateClick()
-    );
   }
 
+  onVideoPaused = () => {
+    hide(this.pause);
+    show(this.play);
+    this.video.pause();
+  };
+
   onVideoEnded() {
-    this.pause.style.display = "none";
-    this.play.style.display = "none";
-    this.replay.style.display = "flex";
-    this.progress.style.width = "100%";
+    hide(this.pause, this.play);
+    show(this.replay);
   }
 
   updateProgress = () => {
-    if (!this.video.paused && !this.video.ended) {
-      const percent = (this.video.currentTime / this.video.duration) * 100;
-      this.progress.style.width = percent + "%";
-      requestAnimationFrame(this.updateProgress);
-    }
+    const percent = (this.video.currentTime / this.video.duration) * 100;
+    this.progress.style.width = percent + "%";
+    requestAnimationFrame(this.updateProgress);
   };
 
   onLoadedMetadata() {
@@ -83,8 +74,8 @@ class Video {
 
     if (this.video.currentTime === this.video.duration) {
       console.log("Video ended");
-      this.pause.style.display = "none";
-      this.play.style.display = "flex";
+      hide(this.pause);
+      show(this.play);
     }
 
     [this.pause, this.play, this.replay, this.canvasCover].forEach(
@@ -100,23 +91,22 @@ class Video {
 
   togglePlayPause() {
     if (this.video.paused || this.video.ended) {
-      this.pause.style.display = "flex";
-      this.play.style.display = "none";
-      this.replay.style.display = "none";
+      show(this.pause);
+      hide(this.play, this.replay);
 
       this.video.play();
       requestAnimationFrame(this.updateProgress);
       this.drawFrame();
     } else {
-      this.pause.style.display = "none";
-      this.play.style.display = "flex";
+      hide(this.pause);
+      show(this.play);
       this.video.pause();
     }
   }
 
   onReplayClick() {
-    this.pause.style.display = "flex";
-    [this.play, this.replay].forEach((el) => (el.style.display = "none"));
+    show(this.pause);
+    hide(this.play, this.replay);
     this.drawFrame();
   }
 
@@ -198,26 +188,6 @@ class Video {
       // Restore scrollbars & scrolling
       document.body.style.overflow = "";
     });
-  }
-
-  onExportClick() {
-    this.dom.videos_export.style.display = "block";
-    this.dom.videos_update.style.display = "none";
-
-    Object.assign(this.tutorialVideos_export.style, styles.activeButton);
-    Object.assign(this.tutorialVideos_update.style, styles.inactiveButton);
-
-    this.dom.videos_update.pause();
-  }
-
-  onUpdateClick() {
-    this.dom.videos_update.style.display = "block";
-    this.dom.videos_export.style.display = "none";
-
-    Object.assign(this.tutorialVideos_update.style, styles.activeButton);
-    Object.assign(this.tutorialVideos_export.style, styles.inactiveButton);
-
-    this.dom.videos_export.pause();
   }
 }
 

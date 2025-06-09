@@ -42,7 +42,7 @@ export class AppController {
           } else {
             new Renderer(configs[configKey], "mainContent");
             //TODO: insert Video.js's instance here
-            // new Video();
+            new Video();
           }
         });
       }
