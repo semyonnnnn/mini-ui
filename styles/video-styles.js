@@ -55,6 +55,15 @@ export const videosPlayer = {
   width: "auto",
   position: "relative",
 };
+export const maxCanvas = {
+  zIndex: "9999",
+  position: "fixed",
+  top: "0",
+  left: "0",
+  width: "100vw",
+  height: "100vh",
+  backgroundColor: "black",
+};
 
 export const video = {
   width: "100%",

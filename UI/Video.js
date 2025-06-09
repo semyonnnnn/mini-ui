@@ -1,11 +1,11 @@
 import { DomMap } from "../DomMap.js";
 import { hide, show } from "../styles/helpers/style-functions.js";
+import * as styles from "../styles/video-styles.js";
 
 class Video {
   constructor() {
     this.dom = new DomMap();
 
-    // Destructure elements for convenience
     const {
       tutorialVideos_update,
       tutorialVideos_export,
@@ -30,19 +30,54 @@ class Video {
     this.progress = progress;
     this.canvasCover = canvasCover;
 
+    this.handleVariables();
+
     this.ctx = this.canvas.getContext("2d");
 
     this.bindEvents();
     this.video.play();
   }
 
+  handleVariables = () => {
+    this.maxCanvas = document.createElement("canvas");
+    this.maxCanvas.id = "maxCanvas";
+    this.maxCtx = this.maxCanvas.getContext("2d");
+  };
+
+  playVideo = () => {
+    hide(this.play, this.replay);
+    show(this.pause);
+    this.video.play();
+    this.drawFrame();
+  };
+
+  onKeyDown = () => {};
+
   bindEvents() {
     this.video.addEventListener("ended", () => this.onVideoEnded());
+    window.addEventListener("keydown", (e) => {
+      if (!document.body.contains(this.maxCanvas)) {
+        e.key === "f" && this.maxVideo();
+        window.removeEventListener("keydown");
+      } else {
+        if (e.key === "f") {
+          this.returnStandardSize();
+        }
+      }
+      if (e.key === " " && !this.video.paused) {
+        this.video.pause();
+        hide(this.pause, this.replay);
+        show(this.play);
+      } else if (this.video.paused && e.key === " ") {
+        this.playVideo();
+      }
+    });
     this.video.addEventListener("loadedmetadata", () =>
       this.onLoadedMetadata()
     );
 
-    this.maximize.addEventListener("click", () => this.onMaximizeClick());
+    this.canvasCover.addEventListener("dblclick", () => this.maxVideo());
+    this.maximize.addEventListener("click", () => this.maxVideo());
   }
 
   onVideoPaused = () => {
@@ -95,7 +130,6 @@ class Video {
       hide(this.play, this.replay);
 
       this.video.play();
-      requestAnimationFrame(this.updateProgress);
       this.drawFrame();
     } else {
       hide(this.pause);
@@ -123,70 +157,68 @@ class Video {
     }
   };
 
-  onMaximizeClick() {
-    const maxCanvas = document.createElement("canvas");
-    const maxCtx = maxCanvas.getContext("2d");
+  resizeCanvas = () => {
+    this.maxCanvas.width = window.innerWidth;
+    this.maxCanvas.height = window.innerHeight;
+  };
 
-    Object.assign(maxCanvas.style, {
-      zIndex: "9999",
-      position: "fixed",
-      top: "0",
-      left: "0",
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "black",
-      cursor: "pointer",
-    });
+  returnStandardSize = () => {
+    this.maxCanvas.remove();
+    window.removeEventListener("resize", this.resizeCanvas);
 
-    const resizeCanvas = () => {
-      maxCanvas.width = window.innerWidth;
-      maxCanvas.height = window.innerHeight;
-    };
+    document.body.style.overflow = "";
+  };
 
-    resizeCanvas();
-    document.body.appendChild(maxCanvas);
+  drawFullScreen = () => {
+    const canvasW = this.maxCanvas.width;
+    const canvasH = this.maxCanvas.height;
 
-    // Hide scrollbars & prevent scrolling
+    const videoW = this.video.videoWidth;
+    const videoH = this.video.videoHeight;
+
+    const videoAspect = videoW / videoH;
+    const canvasAspect = canvasW / canvasH;
+
+    let drawWidth, drawHeight;
+
+    if (videoAspect > canvasAspect) {
+      drawWidth = canvasW;
+      drawHeight = canvasW / videoAspect;
+    } else {
+      drawHeight = canvasH;
+      drawWidth = canvasH * videoAspect;
+    }
+
+    const x = (canvasW - drawWidth) / 2;
+    const y = (canvasH - drawHeight) / 2;
+
+    this.maxCtx.clearRect(0, 0, canvasW, canvasH);
+    this.maxCtx.drawImage(this.video, x, y, drawWidth, drawHeight);
+    requestAnimationFrame(this.drawFullScreen);
+  };
+
+  maxVideo() {
+    Object.assign(this.maxCanvas.style, styles.maxCanvas);
+
+    this.resizeCanvas();
+    document.body.appendChild(this.maxCanvas);
+
     document.body.style.overflow = "hidden";
 
-    const drawFullScreen = () => {
-      const canvasW = maxCanvas.width;
-      const canvasH = maxCanvas.height;
+    this.drawFullScreen();
 
-      const videoW = this.video.videoWidth;
-      const videoH = this.video.videoHeight;
+    window.addEventListener("resize", this.resizeCanvas);
 
-      const videoAspect = videoW / videoH;
-      const canvasAspect = canvasW / canvasH;
+    this.drawFullScreen();
 
-      let drawWidth, drawHeight;
-
-      if (videoAspect > canvasAspect) {
-        drawWidth = canvasW;
-        drawHeight = canvasW / videoAspect;
-      } else {
-        drawHeight = canvasH;
-        drawWidth = canvasH * videoAspect;
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        this.returnStandardSize();
       }
+    });
 
-      const x = (canvasW - drawWidth) / 2;
-      const y = (canvasH - drawHeight) / 2;
-
-      maxCtx.clearRect(0, 0, canvasW, canvasH);
-      maxCtx.drawImage(this.video, x, y, drawWidth, drawHeight);
-      requestAnimationFrame(drawFullScreen);
-    };
-
-    window.addEventListener("resize", resizeCanvas);
-
-    drawFullScreen();
-
-    maxCanvas.addEventListener("click", () => {
-      maxCanvas.remove();
-      window.removeEventListener("resize", resizeCanvas);
-
-      // Restore scrollbars & scrolling
-      document.body.style.overflow = "";
+    this.maxCanvas.addEventListener("dblclick", () => {
+      this.returnStandardSize();
     });
   }
 }
