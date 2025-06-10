@@ -105,41 +105,6 @@ export const secondaryMenu = {
   },
 };
 
-export const activeButton = {
-  backgroundColor: "#1757b8",
-  color: "white",
-  border: "none",
-};
-
-export const inactiveButton = {
-  backgroundColor: "white",
-  color: "black",
-  border: "1px solid black",
-};
-
-const button = {
-  userSelect: "none",
-  cursor: "pointer",
-  padding: "1rem 5rem",
-  fontWeight: "900",
-  fontSize: "20px",
-  textAlign: "center",
-};
-
-export const tutorialVideos_export = {
-  self: {
-    ...button,
-    ...activeButton,
-  },
-};
-
-export const tutorialVideos_update = {
-  self: {
-    ...button,
-    ...inactiveButton,
-  },
-};
-
 export const videosMenu_header = {
   fontSize: "1.1vw",
   padding: "1rem 3rem",

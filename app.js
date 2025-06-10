@@ -2,6 +2,7 @@ import { Renderer } from "./Renderer.js";
 import { config } from "./configs/modal-dom-config.js";
 import { Menu } from "./Menu.js";
 import { AppController } from "./AppController.js";
+import { animations } from "./styles/helpers/style-functions.js";
 
 (function runAfterEverything() {
   function waitForStableEnvironment(callback, tries = 50, interval = 100) {
@@ -37,5 +38,6 @@ import { AppController } from "./AppController.js";
     new Renderer(config, "toggle-card__main");
     new Menu();
     new AppController();
+    animations();
   });
 })();

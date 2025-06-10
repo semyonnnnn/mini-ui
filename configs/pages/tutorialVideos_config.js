@@ -1,3 +1,5 @@
+import { videoSources } from "../../media/videoSources.js";
+
 export const tutorialVideos_config = {
   videosMenu: {
     html: "div",
@@ -24,13 +26,19 @@ export const tutorialVideos_config = {
       video: {
         html: "video",
         controls: "controls",
-        src: "http://localhost:5500/media/mov_bbb.mp4",
+        src: videoSources.tutorialVideos_export,
       },
       canvas: {
         html: "canvas",
       },
       canvasCover: {
         html: "div",
+        children: {
+          loading: {
+            html: "div",
+            innerHTML: `<svg fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-1.32 -1.32 28.99 28.99" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <circle cx="13.792" cy="3.082" r="3.082"></circle> <circle cx="13.792" cy="24.501" r="1.849"></circle> <circle cx="6.219" cy="6.218" r="2.774"></circle> <circle cx="21.365" cy="21.363" r="1.541"></circle> <circle cx="3.082" cy="13.792" r="2.465"></circle> <circle cx="24.501" cy="13.791" r="1.232"></circle> <path d="M4.694,19.84c-0.843,0.843-0.843,2.207,0,3.05c0.842,0.843,2.208,0.843,3.05,0c0.843-0.843,0.843-2.207,0-3.05 C6.902,18.996,5.537,18.988,4.694,19.84z"></path> <circle cx="21.364" cy="6.218" r="0.924"></circle> </g> </g> </g></svg>`,
+          },
+        },
       },
       lengthWrapper: {
         html: "div",
@@ -48,20 +56,42 @@ export const tutorialVideos_config = {
       controlsWrapper: {
         html: "div",
         children: {
-          stopPlayWrapper: {
+          leftSideControls: {
             html: "div",
             children: {
-              pause: {
+              stopPlayWrapper: {
                 html: "div",
-                innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" style="width: 1.6rem; height: 1.6rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M8,7h6v18H8V7z M18,7v18h6V7H18z"></path></g></svg>`,
+                children: {
+                  pause: {
+                    html: "div",
+                    innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" style="width: 1.6rem; height: 1.6rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M8,7h6v18H8V7z M18,7v18h6V7H18z"></path></g></svg>`,
+                  },
+                  play: {
+                    html: "div",
+                    innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" stroke="#ffffff" style="width: 1.4rem; height: 1.4rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M23,16L9,26V6L23,16z"></path></g></svg>`,
+                  },
+                  replay: {
+                    html: "div",
+                    innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" stroke="#ffffff" stroke-width="0.00032" style="width: 1.3rem; height: 1.3rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M26,18c0,6.065-4.935,11-11,11S4,24.065,4,18c0-2.938,1.145-5.701,3.222-7.778l2.828,2.828C8.728,14.372,8,16.13,8,18c0,3.859,3.141,7,7,7s7-3.141,7-7c0-1.869-0.729-3.628-2.051-4.95c-1.109-1.11-2.526-1.794-4.058-1.987l2.523,2.523l-2.828,2.828L8.172,9l7.414-7.414l2.828,2.828L15.79,7.038c2.64,0.187,5.099,1.294,6.989,3.183C24.856,12.301,26,15.062,26,18z"></path></g></svg>`,
+                  },
+                },
               },
-              play: {
+              timeline: {
                 html: "div",
-                innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" stroke="#ffffff" style="width: 1.4rem; height: 1.4rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M23,16L9,26V6L23,16z"></path></g></svg>`,
-              },
-              replay: {
-                html: "div",
-                innerHTML: `<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#ffffff" stroke="#ffffff" stroke-width="0.00032" style="width: 1.3rem; height: 1.3rem; z-index: 3;"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><style type="text/css">.sharpcorners_een{fill:#ffffff;} .st0{fill:#ffffff;}</style><path class="sharpcorners_een" d="M26,18c0,6.065-4.935,11-11,11S4,24.065,4,18c0-2.938,1.145-5.701,3.222-7.778l2.828,2.828C8.728,14.372,8,16.13,8,18c0,3.859,3.141,7,7,7s7-3.141,7-7c0-1.869-0.729-3.628-2.051-4.95c-1.109-1.11-2.526-1.794-4.058-1.987l2.523,2.523l-2.828,2.828L8.172,9l7.414-7.414l2.828,2.828L15.79,7.038c2.64,0.187,5.099,1.294,6.989,3.183C24.856,12.301,26,15.062,26,18z"></path></g></svg>`,
+                children: {
+                  currentTime: {
+                    html: "div",
+                    textContent: "00:00",
+                  },
+                  divider: {
+                    html: "div",
+                    textContent: "/",
+                  },
+                  allTime: {
+                    html: "div",
+                    textContent: "00:00",
+                  },
+                },
               },
             },
           },

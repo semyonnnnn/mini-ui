@@ -50,8 +50,22 @@ export const replay = {
   cursor: "pointer",
 };
 
+export const loadingDone = {
+  display: "none",
+};
+
+export const loadingActive = {
+  display: "block",
+  animation: "spinJS 1s linear infinite",
+  position: "absolute",
+  width: "50px",
+  height: "50px",
+  inset: "0",
+  margin: "auto",
+  zIndex: "99",
+};
 export const videosPlayer = {
-  backgroundColor: "rgba(255,0,0,.2)",
+  backgroundColor: "black",
   width: "auto",
   position: "relative",
 };
@@ -106,17 +120,31 @@ export const controlsBlockWrapper = {
   width: "100%",
   boxSizing: "border-box",
 };
+export const timeline = {
+  display: "flex",
+  gap: ".3rem",
+  color: "white",
+  fontSize: "1rem",
+};
 export const stopPlayWrapper = {
   position: "relative",
   width: "3rem",
   height: "2.5rem",
-  bottom: "0",
-  left: "0",
   zIndex: "3",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 };
+
+export const leftSideControls = {
+  position: "relative",
+  height: "2.5rem",
+  zIndex: "3",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
 export const controlsWrapper = {
   paddingLeft: "1rem",
   paddingRight: "1rem",
@@ -141,4 +169,39 @@ export const canvasCover = {
   height: "100%",
   background: "transparent",
   zIndex: "1",
+};
+
+export const activeButton = {
+  backgroundColor: "#1757b8",
+  color: "white",
+  border: "none",
+};
+
+export const inactiveButton = {
+  backgroundColor: "white",
+  color: "black",
+  border: "1px solid black",
+};
+
+const button = {
+  userSelect: "none",
+  cursor: "pointer",
+  padding: "1rem 5rem",
+  fontWeight: "900",
+  fontSize: "20px",
+  textAlign: "center",
+};
+
+export const tutorialVideos_export = {
+  self: {
+    ...button,
+    ...activeButton,
+  },
+};
+
+export const tutorialVideos_update = {
+  self: {
+    ...button,
+    ...inactiveButton,
+  },
 };

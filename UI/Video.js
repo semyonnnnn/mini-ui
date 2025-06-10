@@ -1,6 +1,8 @@
 import { DomMap } from "../DomMap.js";
 import { hide, show } from "../styles/helpers/style-functions.js";
 import * as styles from "../styles/video-styles.js";
+import { videoSources } from "../media/videoSources.js";
+import { assign } from "../styles/helpers/style-functions.js";
 
 class Video {
   constructor() {
@@ -17,8 +19,10 @@ class Video {
       maximize,
       progress,
       canvasCover,
+      loading,
     } = this.dom;
 
+    this.loading = loading;
     this.tutorialVideos_update = tutorialVideos_update;
     this.tutorialVideos_export = tutorialVideos_export;
     this.video = video;
@@ -42,23 +46,53 @@ class Video {
     this.maxCanvas = document.createElement("canvas");
     this.maxCanvas.id = "maxCanvas";
     this.maxCtx = this.maxCanvas.getContext("2d");
+    this.standardFrameRequest = null;
+    this.fullscreenFrameRequest = null;
   };
 
   playVideo = () => {
-    hide(this.play, this.replay);
-    show(this.pause);
     this.video.play();
     this.drawFrame();
+    hide(this.play, this.replay);
+    show(this.pause);
   };
 
-  onKeyDown = () => {};
+  blackRectangle = () => {
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  };
 
   bindEvents() {
+    const buttons = (active, inactive) => {
+      assign(active, styles.activeButton);
+      assign(inactive, styles.inactiveButton);
+      this.video.src = videoSources[active.id];
+      this.playVideo();
+    };
+
+    this.video.addEventListener("playing", () => {
+      assign(this.loading, styles.loadingDone);
+    });
+
+    this.tutorialVideos_export.addEventListener("click", () => {
+      buttons(this.tutorialVideos_export, this.tutorialVideos_update);
+    });
+
+    this.tutorialVideos_update.addEventListener("click", () => {
+      buttons(this.tutorialVideos_update, this.tutorialVideos_export);
+    });
+
+    this.video.addEventListener("waiting", () => {
+      this.progress.style.width = "0%";
+      this.onVideoPaused();
+      this.blackRectangle();
+      assign(this.loading, styles.loadingActive);
+    });
+
     this.video.addEventListener("ended", () => this.onVideoEnded());
+
     window.addEventListener("keydown", (e) => {
       if (!document.body.contains(this.maxCanvas)) {
         e.key === "f" && this.maxVideo();
-        window.removeEventListener("keydown");
       } else {
         if (e.key === "f") {
           this.returnStandardSize();
@@ -72,6 +106,7 @@ class Video {
         this.playVideo();
       }
     });
+
     this.video.addEventListener("loadedmetadata", () =>
       this.onLoadedMetadata()
     );
@@ -87,6 +122,8 @@ class Video {
   };
 
   onVideoEnded() {
+    //temporary fix, avoids triggering waiting state
+    this.video.currentTime = 0.0001;
     hide(this.pause, this.play);
     show(this.replay);
   }
@@ -100,26 +137,22 @@ class Video {
   onLoadedMetadata() {
     this.canvas.width = this.video.videoWidth;
     this.canvas.height = this.video.videoHeight;
+    assign(this.loading, styles.loadingDone);
+    this.playVideo();
 
     this.updateProgress();
 
-    if (this.video.paused) {
-      console.log("Video paused");
+    if (!this._eventsBound) {
+      [this.pause, this.play, this.replay, this.canvasCover].forEach(
+        (element) => {
+          element.addEventListener("click", () => this.togglePlayPause());
+        }
+      );
+
+      this.replay.addEventListener("click", () => this.playVideo());
+
+      this._eventsBound = true;
     }
-
-    if (this.video.currentTime === this.video.duration) {
-      console.log("Video ended");
-      hide(this.pause);
-      show(this.play);
-    }
-
-    [this.pause, this.play, this.replay, this.canvasCover].forEach(
-      (element) => {
-        element.addEventListener("click", () => this.togglePlayPause());
-      }
-    );
-
-    this.replay.addEventListener("click", () => this.onReplayClick());
 
     this.drawFrame();
   }
@@ -128,7 +161,6 @@ class Video {
     if (this.video.paused || this.video.ended) {
       show(this.pause);
       hide(this.play, this.replay);
-
       this.video.play();
       this.drawFrame();
     } else {
@@ -136,12 +168,6 @@ class Video {
       show(this.play);
       this.video.pause();
     }
-  }
-
-  onReplayClick() {
-    show(this.pause);
-    hide(this.play, this.replay);
-    this.drawFrame();
   }
 
   drawFrame = () => {
@@ -153,7 +179,7 @@ class Video {
         this.canvas.width,
         this.canvas.height
       );
-      requestAnimationFrame(this.drawFrame);
+      this.standardFrameRequest = requestAnimationFrame(this.drawFrame);
     }
   };
 
@@ -165,17 +191,23 @@ class Video {
   returnStandardSize = () => {
     this.maxCanvas.remove();
     window.removeEventListener("resize", this.resizeCanvas);
-
     document.body.style.overflow = "";
+
+    if (this.fullscreenFrameRequest) {
+      cancelAnimationFrame(this.fullscreenFrameRequest);
+      this.fullscreenFrameRequest = null;
+    }
+
+    if (!this.video.paused && !this.video.ended) {
+      this.drawFrame();
+    }
   };
 
   drawFullScreen = () => {
     const canvasW = this.maxCanvas.width;
     const canvasH = this.maxCanvas.height;
-
     const videoW = this.video.videoWidth;
     const videoH = this.video.videoHeight;
-
     const videoAspect = videoW / videoH;
     const canvasAspect = canvasW / canvasH;
 
@@ -194,32 +226,42 @@ class Video {
 
     this.maxCtx.clearRect(0, 0, canvasW, canvasH);
     this.maxCtx.drawImage(this.video, x, y, drawWidth, drawHeight);
-    requestAnimationFrame(this.drawFullScreen);
+    this.fullscreenFrameRequest = requestAnimationFrame(this.drawFullScreen);
   };
 
   maxVideo() {
+    if (this.standardFrameRequest) {
+      cancelAnimationFrame(this.standardFrameRequest);
+      this.standardFrameRequest = null;
+    }
+
     Object.assign(this.maxCanvas.style, styles.maxCanvas);
 
     this.resizeCanvas();
     document.body.appendChild(this.maxCanvas);
-
     document.body.style.overflow = "hidden";
 
     this.drawFullScreen();
 
     window.addEventListener("resize", this.resizeCanvas);
 
-    this.drawFullScreen();
+    window.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape") {
+          this.returnStandardSize();
+        }
+      },
+      { once: true }
+    );
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
+    this.maxCanvas.addEventListener(
+      "dblclick",
+      () => {
         this.returnStandardSize();
-      }
-    });
-
-    this.maxCanvas.addEventListener("dblclick", () => {
-      this.returnStandardSize();
-    });
+      },
+      { once: true }
+    );
   }
 }
 
