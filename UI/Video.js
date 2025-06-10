@@ -20,8 +20,12 @@ class Video {
       progress,
       canvasCover,
       loading,
+      allTime,
+      currentTime,
     } = this.dom;
 
+    this.allTime = allTime;
+    this.currentTime = currentTime;
     this.loading = loading;
     this.tutorialVideos_update = tutorialVideos_update;
     this.tutorialVideos_export = tutorialVideos_export;
@@ -131,10 +135,25 @@ class Video {
   updateProgress = () => {
     const percent = (this.video.currentTime / this.video.duration) * 100;
     this.progress.style.width = percent + "%";
+    this.manageTime(this.currentTime, this.video.currentTime);
     requestAnimationFrame(this.updateProgress);
   };
 
+  manageTime = (target, time) => {
+    const rawTime = Math.floor(time);
+    const rawMinutes = Math.floor(rawTime / 60);
+    // console.log(rawMinutes.toString().length);
+    const minutes =
+      rawMinutes.toString().length === 1 ? "0" + rawMinutes : rawMinutes;
+    const rawSeconds = rawTime % 60;
+    const seconds =
+      rawSeconds.toString().length === 1 ? "0" + rawSeconds : rawSeconds;
+    target.textContent = minutes + ":" + seconds;
+  };
+
   onLoadedMetadata() {
+    this.manageTime(this.allTime, this.video.duration);
+
     this.canvas.width = this.video.videoWidth;
     this.canvas.height = this.video.videoHeight;
     assign(this.loading, styles.loadingDone);
