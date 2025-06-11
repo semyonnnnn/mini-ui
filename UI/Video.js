@@ -4,6 +4,17 @@ import * as styles from "../styles/video-styles.js";
 import { videoSources } from "../media/videoSources.js";
 import { assign } from "../styles/helpers/style-functions.js";
 
+const progressBarHover = {
+  height: ".5rem",
+  cursor: "pointer",
+  transition: "height 0.2s ease",
+};
+
+const progressBarNormal = {
+  height: "0.18rem",
+  transition: "height 0.2s ease",
+};
+
 class Video {
   constructor() {
     this.dom = new DomMap();
@@ -23,8 +34,10 @@ class Video {
       allTime,
       currentTime,
       length,
+      mouseCatcher,
     } = this.dom;
 
+    this.mouseCatcher = mouseCatcher;
     this.length = length;
     this.allTime = allTime;
     this.currentTime = currentTime;
@@ -39,6 +52,12 @@ class Video {
     this.maximize = maximize;
     this.progress = progress;
     this.canvasCover = canvasCover;
+    this.shouldPlay = true;
+    this.isSeeking = false;
+    this.mouseX = 0;
+    this.mouseY = 0;
+
+    this.hoverRadius = 100000;
 
     this.handleVariables();
 
@@ -56,6 +75,33 @@ class Video {
     this.fullscreenFrameRequest = null;
   };
 
+  checkMouseProximity = (e) => {
+    const rect = this.length.getBoundingClientRect();
+    // Define how close mouse needs to be to trigger hover (in pixels)
+    const hoverThreshold = 30;
+
+    // Check if mouse is within threshold distance of progress bar
+    const isNearProgressBar =
+      e.clientX >= rect.left - hoverThreshold &&
+      e.clientX <= rect.right + hoverThreshold &&
+      e.clientY >= rect.top - hoverThreshold &&
+      e.clientY <= rect.bottom + hoverThreshold;
+
+    if (isNearProgressBar) {
+      if (!this.progressBarHovered) {
+        this.progressBarHovered = true;
+        assign(this.length, progressBarHover);
+        assign(this.progress, progressBarHover);
+      }
+    } else {
+      if (this.progressBarHovered) {
+        this.progressBarHovered = false;
+        assign(this.length, progressBarNormal);
+        assign(this.progress, progressBarNormal);
+      }
+    }
+  };
+
   playVideo = () => {
     this.video.play();
     this.drawFrame();
@@ -68,10 +114,50 @@ class Video {
   };
 
   bindEvents() {
-    this.length.addEventListener("click", (e) => {
-      console.log("clicked here:", e.offsetX);
-      console.log("full width", this.length.offsetWidth);
-      console.log("seconds: ", this.length.offsetWidth / e.offsetX);
+    // With this:
+    window.addEventListener("mousemove", (e) => {
+      this.checkMouseProximity(e);
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+
+      // Keep your existing seeking logic
+      if (this.isSeeking) {
+        const rect = this.length.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const clampedX = Math.max(0, Math.min(x, this.length.offsetWidth));
+        const percent = clampedX / this.length.offsetWidth;
+        this.video.currentTime = percent * this.video.duration;
+      }
+    });
+
+    this.length.addEventListener("mouseleave", () => {
+      assign(this.length, progressBarNormal);
+      assign(this.progress, progressBarNormal);
+    });
+
+    this.length.addEventListener("mousedown", (e) => {
+      this.isSeeking = true;
+      this.video.currentTime =
+        (this.video.duration * e.offsetX) / this.length.offsetWidth;
+      this.video.pause();
+      this.shouldPlay = false;
+    });
+
+    document.addEventListener("mouseup", (e) => {
+      if (this.isSeeking) {
+        this.playVideo();
+        this.isSeeking = false;
+      }
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (this.isSeeking) {
+        const rect = this.length.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const clampedX = Math.max(0, Math.min(x, this.length.offsetWidth));
+        const percent = clampedX / this.length.offsetWidth;
+        this.video.currentTime = percent * this.video.duration;
+      }
     });
 
     const buttons = (active, inactive) => {
@@ -86,7 +172,7 @@ class Video {
     });
 
     this.video.addEventListener("canplay", () => {
-      !this.video.ended && this.playVideo();
+      !this.video.ended && this.shouldPlay && this.playVideo();
     });
 
     this.tutorialVideos_export.addEventListener("click", () => {
@@ -100,9 +186,11 @@ class Video {
     });
 
     this.video.addEventListener("waiting", () => {
-      this.progress.style.width = "0%";
-      this.onVideoPaused();
-      assign(this.loading, styles.loadingActive);
+      if (this.shouldPlay) {
+        this.progress.style.width = "0%";
+        this.onVideoPaused();
+        assign(this.loading, styles.loadingActive);
+      }
     });
 
     this.video.addEventListener("ended", () => this.onVideoEnded());
@@ -121,6 +209,14 @@ class Video {
         show(this.play);
       } else if (this.video.paused && e.key === " ") {
         this.playVideo();
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        this.video.currentTime -= 5;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        this.video.currentTime += 5;
       }
     });
 
@@ -153,7 +249,6 @@ class Video {
   manageTime = (target, time) => {
     const rawTime = Math.floor(time);
     const rawMinutes = Math.floor(rawTime / 60);
-    // console.log(rawMinutes.toString().length);
     const minutes =
       rawMinutes.toString().length === 1 ? "0" + rawMinutes : rawMinutes;
     const rawSeconds = rawTime % 60;
@@ -265,7 +360,7 @@ class Video {
       this.standardFrameRequest = null;
     }
 
-    Object.assign(this.maxCanvas.style, styles.maxCanvas);
+    assign(this.maxCanvas, styles.maxCanvas);
 
     this.resizeCanvas();
     document.body.appendChild(this.maxCanvas);

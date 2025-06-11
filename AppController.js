@@ -3,6 +3,7 @@ import { Renderer } from "./Renderer.js";
 import { Video } from "./UI/Video.js";
 import * as configs from "./configs/configs.js";
 import * as styles from "./styles/styles.js";
+import { assign } from "./styles/helpers/style-functions.js";
 
 export class AppController {
   constructor() {
@@ -39,9 +40,10 @@ export class AppController {
         element.addEventListener("click", () => {
           if (key !== "inner_tutorialVideos") {
             new Renderer(configs[configKey], "mainContent");
+            assign(secondaryMenu, { display: "none" });
           } else {
             new Renderer(configs[configKey], "mainContent");
-            //TODO: insert Video.js's instance here
+            assign(secondaryMenu, { display: "none" });
             new Video();
           }
         });

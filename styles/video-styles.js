@@ -100,13 +100,21 @@ export const lengthWrapper = {
   paddingLeft: "1em",
   paddingRight: "1rem",
   boxSizing: "border-box",
-  zIndex: "3",
+  zIndex: "4",
   position: "absolute",
   display: "block",
   ...progressHeight,
   width: "100%",
   bottom: "2.5rem",
   left: "0",
+};
+export const mouseCatcher = {
+  position: "absolute",
+  width: "100%",
+  height: "3rem",
+  left: "0",
+  bottom: "-1.5rem",
+  zIndex: "-1",
 };
 export const length = {
   ...progressHeight,
@@ -128,6 +136,7 @@ export const dotHandle = {
   width: ".8rem",
   height: ".8rem",
   position: "absolute",
+  transform: "translateX(50%)",
 
   borderRadius: "100px",
 };
@@ -157,6 +166,7 @@ export const leftSideControls = {
 };
 
 export const controlsWrapper = {
+  userSelect: "none",
   paddingLeft: "1rem",
   paddingRight: "1rem",
   boxSizing: "border-box",

@@ -1,5 +1,7 @@
 const videoSources = {
-  tutorialVideos_export: "http://localhost:5500/media/mov_bbb.mp4",
-  tutorialVideos_update: "http://localhost:5500/media/sample.mp4",
+  tutorialVideos_export:
+    "https://66.rosstat.gov.ru/storage/mediabank/cer-export-c.mp4",
+  tutorialVideos_update:
+    "https://66.rosstat.gov.ru/storage/mediabank/cer-update-pls-c.mp4",
 };
 export { videoSources };
