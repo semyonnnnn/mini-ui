@@ -22,8 +22,10 @@ class Video {
       loading,
       allTime,
       currentTime,
+      length,
     } = this.dom;
 
+    this.length = length;
     this.allTime = allTime;
     this.currentTime = currentTime;
     this.loading = loading;
@@ -66,6 +68,12 @@ class Video {
   };
 
   bindEvents() {
+    this.length.addEventListener("click", (e) => {
+      console.log("clicked here:", e.offsetX);
+      console.log("full width", this.length.offsetWidth);
+      console.log("seconds: ", this.length.offsetWidth / e.offsetX);
+    });
+
     const buttons = (active, inactive) => {
       assign(active, styles.activeButton);
       assign(inactive, styles.inactiveButton);
@@ -77,18 +85,23 @@ class Video {
       assign(this.loading, styles.loadingDone);
     });
 
+    this.video.addEventListener("canplay", () => {
+      !this.video.ended && this.playVideo();
+    });
+
     this.tutorialVideos_export.addEventListener("click", () => {
+      this.blackRectangle();
       buttons(this.tutorialVideos_export, this.tutorialVideos_update);
     });
 
     this.tutorialVideos_update.addEventListener("click", () => {
+      this.blackRectangle();
       buttons(this.tutorialVideos_update, this.tutorialVideos_export);
     });
 
     this.video.addEventListener("waiting", () => {
       this.progress.style.width = "0%";
       this.onVideoPaused();
-      this.blackRectangle();
       assign(this.loading, styles.loadingActive);
     });
 
@@ -126,8 +139,6 @@ class Video {
   };
 
   onVideoEnded() {
-    //temporary fix, avoids triggering waiting state
-    this.video.currentTime = 0.0001;
     hide(this.pause, this.play);
     show(this.replay);
   }

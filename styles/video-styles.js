@@ -90,10 +90,11 @@ export const canvas = {
   position: "relative",
 };
 
-export const progress = {
-  height: "100%",
-  display: "block",
+const progressColor = {
   backgroundColor: "#1657b8",
+};
+const progressHeight = {
+  height: ".18rem",
 };
 export const lengthWrapper = {
   paddingLeft: "1em",
@@ -102,23 +103,33 @@ export const lengthWrapper = {
   zIndex: "3",
   position: "absolute",
   display: "block",
-  height: ".1rem",
+  ...progressHeight,
   width: "100%",
   bottom: "2.5rem",
   left: "0",
 };
-
 export const length = {
-  height: ".18rem",
+  ...progressHeight,
+  position: "relative",
   backgroundColor: "rgba(200,200,200,.8)",
 };
-export const controlsBlockWrapper = {
-  position: "relative",
-  zIndex: "2",
-  bottom: "0",
-  left: "0",
-  width: "100%",
+export const progress = {
+  ...progressHeight,
   boxSizing: "border-box",
+  inset: "0px",
+  display: "flex",
+  justifyContent: "end",
+  alignItems: "center",
+  position: "absolute",
+  ...progressColor,
+};
+export const dotHandle = {
+  ...progressColor,
+  width: ".8rem",
+  height: ".8rem",
+  position: "absolute",
+
+  borderRadius: "100px",
 };
 export const timeline = {
   display: "flex",

@@ -48,6 +48,11 @@ export const tutorialVideos_config = {
             children: {
               progress: {
                 html: "div",
+                children: {
+                  dotHandle: {
+                    html: "div",
+                  },
+                },
               },
             },
           },
