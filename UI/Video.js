@@ -75,33 +75,6 @@ class Video {
     this.fullscreenFrameRequest = null;
   };
 
-  // checkMouseProximity = (e) => {
-  //   const rect = this.length.getBoundingClientRect();
-  //   // Define how close mouse needs to be to trigger hover (in pixels)
-  //   const hoverThreshold = 30;
-
-  //   // Check if mouse is within threshold distance of progress bar
-  //   const isNearProgressBar =
-  //     e.clientX >= rect.left - hoverThreshold &&
-  //     e.clientX <= rect.right + hoverThreshold &&
-  //     e.clientY >= rect.top - hoverThreshold &&
-  //     e.clientY <= rect.bottom + hoverThreshold;
-
-  //   if (isNearProgressBar) {
-  //     if (!this.progressBarHovered) {
-  //       this.progressBarHovered = true;
-  //       assign(this.length, progressBarHover);
-  //       assign(this.progress, progressBarHover);
-  //     }
-  //   } else {
-  //     if (this.progressBarHovered) {
-  //       this.progressBarHovered = false;
-  //       assign(this.length, progressBarNormal);
-  //       assign(this.progress, progressBarNormal);
-  //     }
-  //   }
-  // };
-
   playVideo = () => {
     this.video.play();
     this.drawFrame();
@@ -116,7 +89,6 @@ class Video {
   bindEvents() {
     // With this:
     window.addEventListener("mousemove", (e) => {
-      // this.checkMouseProximity(e);
       this.mouseX = e.clientX;
       this.mouseY = e.clientY;
 

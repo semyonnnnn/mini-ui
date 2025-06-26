@@ -98,7 +98,7 @@ export const lengthWrapper = {
   paddingLeft: "1em",
   paddingRight: "1rem",
   boxSizing: "border-box",
-  zIndex: "4",
+  zIndex: "2",
   position: "absolute",
   display: "block",
   width: "100%",
@@ -111,7 +111,7 @@ export const mouseCatcher = {
   height: "3rem",
   left: "0",
   bottom: "-1.5rem",
-  zIndex: "3",
+  // zIndex: "0",
   backgroundColor: "transparent",
 };
 export const length = {
