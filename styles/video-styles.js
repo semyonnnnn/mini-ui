@@ -93,9 +93,7 @@ export const canvas = {
 const progressColor = {
   backgroundColor: "#1657b8",
 };
-const progressHeight = {
-  height: ".18rem",
-};
+
 export const lengthWrapper = {
   paddingLeft: "1em",
   paddingRight: "1rem",
@@ -103,7 +101,6 @@ export const lengthWrapper = {
   zIndex: "4",
   position: "absolute",
   display: "block",
-  ...progressHeight,
   width: "100%",
   bottom: "2.5rem",
   left: "0",
@@ -114,15 +111,17 @@ export const mouseCatcher = {
   height: "3rem",
   left: "0",
   bottom: "-1.5rem",
-  zIndex: "-1",
+  zIndex: "3",
+  backgroundColor: "transparent",
 };
 export const length = {
-  ...progressHeight,
+  height: ".18rem",
   position: "relative",
   backgroundColor: "rgba(200,200,200,.8)",
+  cursor: "pointer",
 };
 export const progress = {
-  ...progressHeight,
+  height: ".18rem",
   boxSizing: "border-box",
   inset: "0px",
   display: "flex",

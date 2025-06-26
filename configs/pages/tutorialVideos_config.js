@@ -46,6 +46,9 @@ export const tutorialVideos_config = {
           length: {
             html: "div",
             children: {
+              mouseCatcher: {
+                html: "div",
+              },
               progress: {
                 html: "div",
                 children: {
