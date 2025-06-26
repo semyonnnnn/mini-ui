@@ -4,17 +4,6 @@ import * as styles from "../styles/video-styles.js";
 import { videoSources } from "../media/videoSources.js";
 import { assign } from "../styles/helpers/style-functions.js";
 
-const progressBarHover = {
-  height: ".5rem",
-  cursor: "pointer",
-  transition: "height 0.2s ease",
-};
-
-const progressBarNormal = {
-  height: "0.18rem",
-  transition: "height 0.2s ease",
-};
-
 class Video {
   constructor() {
     this.dom = new DomMap();
@@ -35,8 +24,21 @@ class Video {
       currentTime,
       length,
       mouseCatcher,
+      controlsWrapper,
+      lengthWrapper,
+      videosPlayer,
+      soundTrack,
+      soundProgress,
+      sound,
+      halfSound,
+      mute,
     } = this.dom;
-
+    this.sound = sound;
+    this.halfSound = halfSound;
+    this.mute = mute;
+    this.soundTrack = soundTrack;
+    this.lengthWrapper = lengthWrapper;
+    this.controlsWrapper = controlsWrapper;
     this.mouseCatcher = mouseCatcher;
     this.length = length;
     this.allTime = allTime;
@@ -54,8 +56,13 @@ class Video {
     this.canvasCover = canvasCover;
     this.shouldPlay = true;
     this.isSeeking = false;
+    this.isSeekingSound = false;
     this.mouseX = 0;
     this.mouseY = 0;
+    this.videosPlayer = videosPlayer;
+    this.inside;
+    this.wasPaused;
+    this.soundProgress = soundProgress;
 
     this.hoverRadius = 100000;
 
@@ -76,6 +83,7 @@ class Video {
   };
 
   playVideo = () => {
+    this.wasPaused = false;
     this.video.play();
     this.drawFrame();
     hide(this.play, this.replay);
@@ -87,12 +95,34 @@ class Video {
   };
 
   bindEvents() {
-    // With this:
     window.addEventListener("mousemove", (e) => {
       this.mouseX = e.clientX;
       this.mouseY = e.clientY;
 
-      // Keep your existing seeking logic
+      const rect1 = this.canvas.getBoundingClientRect();
+      const rect2 = this.controlsWrapper.getBoundingClientRect();
+      const rect3 = this.lengthWrapper.getBoundingClientRect();
+
+      // Union box
+      const top = Math.min(rect1.top, rect2.top, rect3.top);
+      const left = Math.min(rect1.left, rect2.left, rect3.left);
+      const bottom = Math.max(rect1.bottom, rect2.bottom, rect3.bottom);
+      const right = Math.max(rect1.right, rect2.right, rect3.right);
+
+      this.inside =
+        e.clientX >= left &&
+        e.clientX <= right &&
+        e.clientY >= top &&
+        e.clientY <= bottom;
+
+      if (!this.inside && !this.video.paused && !this.video.ended) {
+        assign(this.controlsWrapper, { opacity: "0" });
+        assign(this.lengthWrapper, { opacity: "0" });
+      } else {
+        assign(this.controlsWrapper, { opacity: "100%" });
+        assign(this.lengthWrapper, { opacity: "100%" });
+      }
+
       if (this.isSeeking) {
         const rect = this.length.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -100,14 +130,22 @@ class Video {
         const percent = clampedX / this.length.offsetWidth;
         this.video.currentTime = percent * this.video.duration;
       }
-    });
 
-    this.length.addEventListener("mouseleave", () => {
-      assign(this.length, progressBarNormal);
-      assign(this.progress, progressBarNormal);
+      if (this.isSeekingSound) {
+        const soundRect = this.soundTrack.getBoundingClientRect();
+        const soundX = e.clientX - soundRect.left;
+        const clampedSoundX = Math.max(
+          0,
+          Math.min(soundX, this.soundTrack.offsetWidth)
+        );
+        const soundPercent = (this.video.volume =
+          clampedSoundX / this.soundTrack.offsetWidth);
+        this.updateSound(soundPercent);
+      }
     });
 
     this.length.addEventListener("mousedown", (e) => {
+      e.preventDefault();
       this.isSeeking = true;
       this.video.currentTime =
         (this.video.duration * e.offsetX) / this.length.offsetWidth;
@@ -115,18 +153,42 @@ class Video {
       this.shouldPlay = false;
     });
 
-    document.addEventListener("mouseup", (e) => {
+    this.soundTrack.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      this.isSeekingSound = true;
+      this.video.volume = e.offsetX / this.soundTrack.offsetWidth;
+      this.updateSound(this.video.volume);
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      this.drawFrame();
       if (this.isSeeking) {
-        this.playVideo();
+        if (!this.wasPaused) {
+          this.playVideo();
+        }
+
         this.isSeeking = false;
+
+        assign(this.length, { height: ".18rem" });
+        assign(this.progress, { height: ".18rem" });
+      }
+
+      if (this.isSeekingSound) {
+        this.isSeekingSound = false;
       }
     });
 
     this.mouseCatcher.addEventListener("mouseenter", () => {
       if (this.mouseCatcher.matches(":hover")) {
-        console.log("hover");
         assign(this.length, { height: ".5rem" });
         assign(this.progress, { height: ".5rem" });
+      }
+    });
+
+    this.mouseCatcher.addEventListener("mouseleave", () => {
+      if (!this.mouseCatcher.matches(":hover") && !this.isSeeking) {
+        assign(this.length, { height: ".18rem" });
+        assign(this.progress, { height: ".18rem" });
       }
     });
 
@@ -137,6 +199,23 @@ class Video {
         const clampedX = Math.max(0, Math.min(x, this.length.offsetWidth));
         const percent = clampedX / this.length.offsetWidth;
         this.video.currentTime = percent * this.video.duration;
+      }
+    });
+
+    this.video.addEventListener("volumechange", () => {
+      // console.log(this.video.volume);
+      if (this.video.volume === 0) {
+        assign(this.mute, { display: "flex" });
+        assign(this.sound, { display: "none" });
+        assign(this.halfSound, { display: "none" });
+      } else if (this.video.volume > 0 && this.video.volume < 0.5) {
+        assign(this.mute, { display: "none" });
+        assign(this.sound, { display: "none" });
+        assign(this.halfSound, { display: "flex" });
+      } else {
+        assign(this.mute, { display: "none" });
+        assign(this.sound, { display: "flex" });
+        assign(this.halfSound, { display: "none" });
       }
     });
 
@@ -184,19 +263,53 @@ class Video {
         }
       }
       if (e.key === " " && !this.video.paused) {
+        e.preventDefault();
         this.video.pause();
+        this.wasPaused = true;
         hide(this.pause, this.replay);
         show(this.play);
       } else if (this.video.paused && e.key === " ") {
+        e.preventDefault();
         this.playVideo();
       }
       if (e.key === "ArrowLeft") {
         e.preventDefault();
-        this.video.currentTime -= 5;
+        if (this.wasPaused) {
+          this.video.currentTime -= 5;
+          this.video.pause();
+        } else {
+          this.video.currentTime -= 5;
+        }
       }
       if (e.key === "ArrowRight") {
         e.preventDefault();
-        this.video.currentTime += 5;
+
+        if (this.wasPaused) {
+          this.video.currentTime += 5;
+          this.video.pause();
+        } else {
+          this.video.currentTime += 5;
+        }
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (this.video.volume <= 0.8) {
+          this.video.volume += 0.2;
+          this.updateSound(this.video.volume);
+        } else {
+          this.video.volume = 1;
+          this.updateSound(this.video.volume);
+        }
+      }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (this.video.volume >= 0.2) {
+          this.video.volume -= 0.2;
+          this.updateSound(this.video.volume);
+        } else {
+          this.video.volume = 0;
+          this.updateSound(0);
+        }
       }
     });
 
@@ -209,12 +322,18 @@ class Video {
   }
 
   onVideoPaused = () => {
+    assign(this.controlsWrapper, { opacity: "100%" });
+    assign(this.lengthWrapper, { opacity: "100%" });
     hide(this.pause);
     show(this.play);
+
+    this.wasPaused = true;
     this.video.pause();
   };
 
   onVideoEnded() {
+    assign(this.controlsWrapper, { opacity: "100%" });
+    assign(this.lengthWrapper, { opacity: "100%" });
     hide(this.pause, this.play);
     show(this.replay);
   }
@@ -224,6 +343,10 @@ class Video {
     this.progress.style.width = percent + "%";
     this.manageTime(this.currentTime, this.video.currentTime);
     requestAnimationFrame(this.updateProgress);
+  };
+
+  updateSound = (percent) => {
+    this.soundProgress.style.width = percent * 100 + "%";
   };
 
   manageTime = (target, time) => {
@@ -271,21 +394,15 @@ class Video {
     } else {
       hide(this.pause);
       show(this.play);
+
+      this.wasPaused = true;
       this.video.pause();
     }
   }
 
   drawFrame = () => {
-    if (!this.video.paused && !this.video.ended) {
-      this.ctx.drawImage(
-        this.video,
-        0,
-        0,
-        this.canvas.width,
-        this.canvas.height
-      );
-      this.standardFrameRequest = requestAnimationFrame(this.drawFrame);
-    }
+    this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+    this.standardFrameRequest = requestAnimationFrame(this.drawFrame);
   };
 
   resizeCanvas = () => {

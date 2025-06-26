@@ -20,7 +20,6 @@ export const maxMinWrapper = {
   height: "2.5rem",
   bottom: "0",
   right: "0",
-  zIndex: "3",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -65,8 +64,7 @@ export const loadingActive = {
   zIndex: "99",
 };
 export const videosPlayer = {
-  backgroundColor: "black",
-  width: "auto",
+  height: "100%",
   position: "relative",
 };
 export const maxCanvas = {
@@ -106,21 +104,23 @@ export const lengthWrapper = {
   left: "0",
 };
 export const mouseCatcher = {
+  zIndex: "3",
   position: "absolute",
   width: "100%",
-  height: "3rem",
+  height: "1rem",
   left: "0",
-  bottom: "-1.5rem",
-  // zIndex: "0",
+  bottom: "0",
   backgroundColor: "transparent",
 };
 export const length = {
+  transition: "height 300ms ease",
   height: ".18rem",
   position: "relative",
   backgroundColor: "rgba(200,200,200,.8)",
   cursor: "pointer",
 };
 export const progress = {
+  transition: "height 300ms ease",
   height: ".18rem",
   boxSizing: "border-box",
   inset: "0px",
@@ -130,15 +130,71 @@ export const progress = {
   position: "absolute",
   ...progressColor,
 };
+
+export const soundProgress = {
+  transition: "height 300ms ease",
+  height: ".18rem",
+  boxSizing: "border-box",
+  inset: "0px",
+  display: "flex",
+  justifyContent: "end",
+  alignItems: "center",
+  position: "absolute",
+  backgroundColor: "white",
+  zIndex: "5",
+};
+
 export const dotHandle = {
   ...progressColor,
   width: ".8rem",
   height: ".8rem",
   position: "absolute",
   transform: "translateX(50%)",
-
   borderRadius: "100px",
 };
+
+export const soundWrapper = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginLeft: "1rem",
+};
+
+export const soundTrack = {
+  cursor: "pointer",
+  position: "relative",
+  height: ".18rem",
+  width: "15vw",
+  backgroundColor: "rgba(200,200,200,.8)",
+  marginLeft: "1rem",
+  marginRight: "3rem",
+};
+
+export const soundMouseCatcher = {
+  cursor: "pointer",
+  zIndex: "5",
+  position: "absolute",
+  width: "100%",
+  height: "1rem",
+  left: "0",
+  bottom: "-.5rem",
+  backgroundColor: "transparent",
+};
+
+export const soundDotHandle = {
+  backgroundColor: "white",
+  width: ".8rem",
+  height: ".8rem",
+  position: "absolute",
+  transform: "translateX(50%)",
+  borderRadius: "100px",
+};
+
+export const sound = {
+  height: "1.6rem",
+  cursor: "pointer",
+};
+
 export const timeline = {
   display: "flex",
   gap: ".3rem",
@@ -149,7 +205,6 @@ export const stopPlayWrapper = {
   position: "relative",
   width: "3rem",
   height: "2.5rem",
-  zIndex: "3",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -158,7 +213,6 @@ export const stopPlayWrapper = {
 export const leftSideControls = {
   position: "relative",
   height: "2.5rem",
-  zIndex: "3",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -169,12 +223,11 @@ export const controlsWrapper = {
   paddingLeft: "1rem",
   paddingRight: "1rem",
   boxSizing: "border-box",
-  // backgroundColor: "rgba(0,0,255,.3)",
   position: "absolute",
   bottom: "0",
   left: "0",
   right: "0",
-  zIndex: "3",
+  zIndex: "4",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
