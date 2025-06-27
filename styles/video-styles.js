@@ -151,6 +151,7 @@ export const dotHandle = {
   position: "absolute",
   transform: "translateX(50%)",
   borderRadius: "100px",
+  pointerEvents: "none",
 };
 
 export const soundWrapper = {
@@ -188,6 +189,7 @@ export const soundDotHandle = {
   position: "absolute",
   transform: "translateX(50%)",
   borderRadius: "100px",
+  pointerEvents: "none",
 };
 
 export const sound = {

@@ -33,6 +33,7 @@ class Video {
       halfSound,
       mute,
     } = this.dom;
+
     this.sound = sound;
     this.halfSound = halfSound;
     this.mute = mute;
@@ -61,8 +62,12 @@ class Video {
     this.mouseY = 0;
     this.videosPlayer = videosPlayer;
     this.inside;
-    this.wasPaused;
     this.soundProgress = soundProgress;
+    this.hasEnteredOrTimedOut = false;
+    this.timeoutId;
+    this.timeoutTime = 3300;
+    this.arrayOfSoundControls = [this.mute, this.sound, this.halfSound];
+    this.arrayOfPlayButtons = [this.play, this.pause, this.replay];
 
     this.hoverRadius = 100000;
 
@@ -71,6 +76,7 @@ class Video {
     this.ctx = this.canvas.getContext("2d");
 
     this.bindEvents();
+
     this.video.play();
   }
 
@@ -82,140 +88,235 @@ class Video {
     this.fullscreenFrameRequest = null;
   };
 
-  playVideo = () => {
-    this.wasPaused = false;
-    this.video.play();
-    this.drawFrame();
-    hide(this.play, this.replay);
-    show(this.pause);
-  };
+  // =====================
+  // EVENT HANDLERS
+  // =====================
 
-  blackRectangle = () => {
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  };
+  handleMouseMove = (e) => {
+    this.mouseX = e.clientX;
+    this.mouseY = e.clientY;
 
-  bindEvents() {
-    window.addEventListener("mousemove", (e) => {
-      this.mouseX = e.clientX;
-      this.mouseY = e.clientY;
+    const rect1 = this.canvas.getBoundingClientRect();
+    const rect2 = this.controlsWrapper.getBoundingClientRect();
+    const rect3 = this.lengthWrapper.getBoundingClientRect();
 
-      const rect1 = this.canvas.getBoundingClientRect();
-      const rect2 = this.controlsWrapper.getBoundingClientRect();
-      const rect3 = this.lengthWrapper.getBoundingClientRect();
+    // Union box
+    const top = Math.min(rect1.top, rect2.top, rect3.top);
+    const left = Math.min(rect1.left, rect2.left, rect3.left);
+    const bottom = Math.max(rect1.bottom, rect2.bottom, rect3.bottom);
+    const right = Math.max(rect1.right, rect2.right, rect3.right);
 
-      // Union box
-      const top = Math.min(rect1.top, rect2.top, rect3.top);
-      const left = Math.min(rect1.left, rect2.left, rect3.left);
-      const bottom = Math.max(rect1.bottom, rect2.bottom, rect3.bottom);
-      const right = Math.max(rect1.right, rect2.right, rect3.right);
+    this.inside =
+      e.clientX >= left &&
+      e.clientX <= right &&
+      e.clientY >= top &&
+      e.clientY <= bottom;
 
-      this.inside =
-        e.clientX >= left &&
-        e.clientX <= right &&
-        e.clientY >= top &&
-        e.clientY <= bottom;
-
+    if (this.hasEnteredOrTimedOut && !this.isSeeking && !this.isSeekingSound) {
       if (!this.inside && !this.video.paused && !this.video.ended) {
-        assign(this.controlsWrapper, { opacity: "0" });
-        assign(this.lengthWrapper, { opacity: "0" });
+        this.hideControls();
       } else {
-        assign(this.controlsWrapper, { opacity: "100%" });
-        assign(this.lengthWrapper, { opacity: "100%" });
+        this.showControls();
+      }
+    }
+
+    if (this.isSeeking) {
+      const rect = this.length.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const clampedX = Math.max(0, Math.min(x, this.length.offsetWidth));
+      const percent = clampedX / this.length.offsetWidth;
+      this.video.currentTime = percent * this.video.duration;
+    }
+
+    if (this.isSeekingSound) {
+      const soundRect = this.soundTrack.getBoundingClientRect();
+      const soundX = e.clientX - soundRect.left;
+      const clampedSoundX = Math.max(
+        0,
+        Math.min(soundX, this.soundTrack.offsetWidth)
+      );
+      const soundPercent = (this.video.volume =
+        clampedSoundX / this.soundTrack.offsetWidth);
+      this.updateSound(soundPercent);
+    }
+  };
+
+  handleLengthMouseDown = (e) => {
+    e.preventDefault();
+    this.isSeeking = true;
+    this.video.currentTime =
+      (this.video.duration * e.offsetX) / this.length.offsetWidth;
+    this.video.pause();
+    this.shouldPlay = false;
+  };
+
+  handleSoundTrackMouseDown = (e) => {
+    e.preventDefault();
+    this.isSeekingSound = true;
+    this.video.volume = e.offsetX / this.soundTrack.offsetWidth;
+    this.updateSound(this.video.volume);
+  };
+
+  handleWindowMouseUp = (e) => {
+    this.drawFrame();
+    if (this.isSeeking) {
+      if (!this.wasPaused) {
+        this.playVideo();
       }
 
-      if (this.isSeeking) {
-        const rect = this.length.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const clampedX = Math.max(0, Math.min(x, this.length.offsetWidth));
-        const percent = clampedX / this.length.offsetWidth;
-        this.video.currentTime = percent * this.video.duration;
-      }
+      this.isSeeking = false;
+      this.progressHeight(".18rem");
+    }
 
-      if (this.isSeekingSound) {
-        const soundRect = this.soundTrack.getBoundingClientRect();
-        const soundX = e.clientX - soundRect.left;
-        const clampedSoundX = Math.max(
-          0,
-          Math.min(soundX, this.soundTrack.offsetWidth)
-        );
-        const soundPercent = (this.video.volume =
-          clampedSoundX / this.soundTrack.offsetWidth);
-        this.updateSound(soundPercent);
-      }
-    });
+    if (this.isSeekingSound) {
+      this.isSeekingSound = false;
+    }
+  };
 
-    this.length.addEventListener("mousedown", (e) => {
+  handleMouseCatcherMouseEnter = () => {
+    if (this.mouseCatcher.matches(":hover")) {
+      this.progressHeight(".5rem");
+    }
+  };
+
+  handleMouseCatcherMouseLeave = () => {
+    if (!this.mouseCatcher.matches(":hover") && !this.isSeeking) {
+      this.progressHeight(".18rem");
+    }
+  };
+
+  handleKeyDown = (e) => {
+    if (!document.body.contains(this.maxCanvas)) {
+      e.key === "f" && this.maxVideo();
+    } else {
+      if (e.key === "f") {
+        this.returnStandardSize();
+      }
+    }
+    if (e.key === " " && !this.video.paused) {
       e.preventDefault();
-      this.isSeeking = true;
-      this.video.currentTime =
-        (this.video.duration * e.offsetX) / this.length.offsetWidth;
       this.video.pause();
-      this.shouldPlay = false;
-    });
-
-    this.soundTrack.addEventListener("mousedown", (e) => {
+      this.wasPaused = true;
+      this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
+    } else if (this.video.paused && e.key === " ") {
       e.preventDefault();
-      this.isSeekingSound = true;
-      this.video.volume = e.offsetX / this.soundTrack.offsetWidth;
-      this.updateSound(this.video.volume);
-    });
+      this.playVideo();
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      this.showControlsTemporarily();
 
-    window.addEventListener("mouseup", (e) => {
-      this.drawFrame();
-      if (this.isSeeking) {
-        if (!this.wasPaused) {
-          this.playVideo();
-        }
-
-        this.isSeeking = false;
-
-        assign(this.length, { height: ".18rem" });
-        assign(this.progress, { height: ".18rem" });
+      if (this.replay.style.display == "flex") {
+        this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
       }
-
-      if (this.isSeekingSound) {
-        this.isSeekingSound = false;
+      if (this.wasPaused) {
+        this.video.currentTime -= 5;
+        this.video.pause();
+      } else {
+        this.video.currentTime -= 5;
       }
-    });
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      this.showControlsTemporarily();
 
-    this.mouseCatcher.addEventListener("mouseenter", () => {
-      if (this.mouseCatcher.matches(":hover")) {
-        assign(this.length, { height: ".5rem" });
-        assign(this.progress, { height: ".5rem" });
+      if (this.wasPaused) {
+        this.video.currentTime += 5;
+        this.video.pause();
+      } else {
+        this.video.currentTime += 5;
       }
-    });
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      this.showControlsTemporarily();
 
-    this.mouseCatcher.addEventListener("mouseleave", () => {
-      if (!this.mouseCatcher.matches(":hover") && !this.isSeeking) {
-        assign(this.length, { height: ".18rem" });
-        assign(this.progress, { height: ".18rem" });
+      if (this.video.volume <= 0.8) {
+        this.video.volume += 0.2;
+        this.updateSound(this.video.volume);
+      } else {
+        this.video.volume = 1;
+        this.updateSound(this.video.volume);
       }
-    });
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      this.showControlsTemporarily();
 
-    window.addEventListener("mousemove", (e) => {
-      if (this.isSeeking) {
-        const rect = this.length.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const clampedX = Math.max(0, Math.min(x, this.length.offsetWidth));
-        const percent = clampedX / this.length.offsetWidth;
-        this.video.currentTime = percent * this.video.duration;
+      if (this.video.volume >= 0.2) {
+        this.video.volume -= 0.2;
+        this.updateSound(this.video.volume);
+      } else {
+        this.video.volume = 0;
+        this.updateSound(0);
       }
-    });
+    }
+  };
+
+  // =====================
+  // BIND/UNBIND METHODS
+  // =====================
+
+  bindMouseEvents = () => {
+    window.addEventListener("mousemove", this.handleMouseMove);
+    this.length.addEventListener("mousedown", this.handleLengthMouseDown);
+    this.soundTrack.addEventListener(
+      "mousedown",
+      this.handleSoundTrackMouseDown
+    );
+    window.addEventListener("mouseup", this.handleWindowMouseUp);
+    this.mouseCatcher.addEventListener(
+      "mouseenter",
+      this.handleMouseCatcherMouseEnter
+    );
+    this.mouseCatcher.addEventListener(
+      "mouseleave",
+      this.handleMouseCatcherMouseLeave
+    );
+  };
+
+  unbindMouseEvents = () => {
+    window.removeEventListener("mousemove", this.handleMouseMove);
+    this.length.removeEventListener("mousedown", this.handleLengthMouseDown);
+    this.soundTrack.removeEventListener(
+      "mousedown",
+      this.handleSoundTrackMouseDown
+    );
+    window.removeEventListener("mouseup", this.handleWindowMouseUp);
+    this.mouseCatcher.removeEventListener(
+      "mouseenter",
+      this.handleMouseCatcherMouseEnter
+    );
+    this.mouseCatcher.removeEventListener(
+      "mouseleave",
+      this.handleMouseCatcherMouseLeave
+    );
+  };
+
+  bindKeyboardEvents = () => {
+    window.addEventListener("keydown", this.handleKeyDown);
+  };
+
+  unbindKeyboardEvents = () => {
+    window.removeEventListener("keydown", this.handleKeyDown);
+  };
+
+  bindEvents = () => {
+    this.bindMouseEvents();
+    this.bindKeyboardEvents();
+
+    setTimeout(() => {
+      this.hasEnteredOrTimedOut = true;
+      this.hideControls();
+    }, this.timeoutTime);
 
     this.video.addEventListener("volumechange", () => {
-      // console.log(this.video.volume);
       if (this.video.volume === 0) {
-        assign(this.mute, { display: "flex" });
-        assign(this.sound, { display: "none" });
-        assign(this.halfSound, { display: "none" });
+        this.flexThisHideAll(this.arrayOfSoundControls, this.mute);
       } else if (this.video.volume > 0 && this.video.volume < 0.5) {
-        assign(this.mute, { display: "none" });
-        assign(this.sound, { display: "none" });
-        assign(this.halfSound, { display: "flex" });
+        this.flexThisHideAll(this.arrayOfSoundControls, this.halfSound);
       } else {
-        assign(this.mute, { display: "none" });
-        assign(this.sound, { display: "flex" });
-        assign(this.halfSound, { display: "none" });
+        this.flexThisHideAll(this.arrayOfSoundControls, this.sound);
       }
     });
 
@@ -254,88 +355,89 @@ class Video {
 
     this.video.addEventListener("ended", () => this.onVideoEnded());
 
-    window.addEventListener("keydown", (e) => {
-      if (!document.body.contains(this.maxCanvas)) {
-        e.key === "f" && this.maxVideo();
-      } else {
-        if (e.key === "f") {
-          this.returnStandardSize();
-        }
-      }
-      if (e.key === " " && !this.video.paused) {
-        e.preventDefault();
-        this.video.pause();
-        this.wasPaused = true;
-        hide(this.pause, this.replay);
-        show(this.play);
-      } else if (this.video.paused && e.key === " ") {
-        e.preventDefault();
-        this.playVideo();
-      }
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        if (this.wasPaused) {
-          this.video.currentTime -= 5;
-          this.video.pause();
-        } else {
-          this.video.currentTime -= 5;
-        }
-      }
-      if (e.key === "ArrowRight") {
-        e.preventDefault();
-
-        if (this.wasPaused) {
-          this.video.currentTime += 5;
-          this.video.pause();
-        } else {
-          this.video.currentTime += 5;
-        }
-      }
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        if (this.video.volume <= 0.8) {
-          this.video.volume += 0.2;
-          this.updateSound(this.video.volume);
-        } else {
-          this.video.volume = 1;
-          this.updateSound(this.video.volume);
-        }
-      }
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        if (this.video.volume >= 0.2) {
-          this.video.volume -= 0.2;
-          this.updateSound(this.video.volume);
-        } else {
-          this.video.volume = 0;
-          this.updateSound(0);
-        }
-      }
-    });
-
     this.video.addEventListener("loadedmetadata", () =>
       this.onLoadedMetadata()
     );
 
     this.canvasCover.addEventListener("dblclick", () => this.maxVideo());
     this.maximize.addEventListener("click", () => this.maxVideo());
-  }
+  };
+
+  // =====================
+  // OTHER METHODS (unchanged)
+  // =====================
+
+  playVideo = () => {
+    this.wasPaused = false;
+    this.video.play();
+    this.drawFrame();
+    this.flexThisHideAll(this.arrayOfPlayButtons, this.pause);
+  };
+
+  blackRectangle = () => {
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  };
+
+  manageControls = (percent) => {
+    [this.controlsWrapper, this.lengthWrapper].forEach((el) => {
+      assign(el, { opacity: percent + "%" });
+    });
+  };
+
+  showControls = () => {
+    this.manageControls(100);
+  };
+
+  hideControls = () => {
+    this.manageControls(0);
+  };
+
+  doDynamicStyles = (array, target, styles) => {
+    array.forEach((el) => {
+      const styleSet =
+        target == null
+          ? styles.all
+          : el === target
+          ? styles.target
+          : styles.others;
+      assign(el, styleSet);
+    });
+  };
+
+  flexThisHideAll = (array, element) => {
+    this.doDynamicStyles(array, element, {
+      target: { display: "flex" },
+      others: { display: "none" },
+    });
+  };
+
+  progressHeight = (style) => {
+    this.doDynamicStyles([this.length, this.progress], null, {
+      all: { height: style },
+    });
+  };
+
+  showControlsTemporarily = () => {
+    this.hasEnteredOrTimedOut = false;
+    this.showControls();
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.hasEnteredOrTimedOut = true;
+      this.hideControls();
+    }, this.timeoutTime);
+  };
 
   onVideoPaused = () => {
-    assign(this.controlsWrapper, { opacity: "100%" });
-    assign(this.lengthWrapper, { opacity: "100%" });
-    hide(this.pause);
-    show(this.play);
+    this.showControls();
+    this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
 
     this.wasPaused = true;
     this.video.pause();
   };
 
   onVideoEnded() {
-    assign(this.controlsWrapper, { opacity: "100%" });
-    assign(this.lengthWrapper, { opacity: "100%" });
-    hide(this.pause, this.play);
-    show(this.replay);
+    this.showControls();
+    this.flexThisHideAll(this.arrayOfPlayButtons, this.replay);
   }
 
   updateProgress = () => {
@@ -387,16 +489,15 @@ class Video {
 
   togglePlayPause() {
     if (this.video.paused || this.video.ended) {
-      show(this.pause);
-      hide(this.play, this.replay);
+      this.flexThisHideAll(this.arrayOfPlayButtons, this.pause);
       this.video.play();
       this.drawFrame();
     } else {
-      hide(this.pause);
-      show(this.play);
+      this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
 
       this.wasPaused = true;
       this.video.pause();
+      this.onVideoPaused();
     }
   }
 
