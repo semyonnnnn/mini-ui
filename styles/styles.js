@@ -106,7 +106,11 @@ export const secondaryMenu = {
 };
 
 export const videosMenu_header = {
-  fontSize: "1.1vw",
+  fontSize: "1rem",
   padding: "1rem 3rem",
   boxShadow: "inset 0 0 3px black",
+};
+
+export const reportDigital_warning = {
+  color: "red",
 };

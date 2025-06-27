@@ -46,7 +46,7 @@ export const reportDigital_config = {
               " сохранить его в формате XML на оптический диск CD или DVD, флеш-накопитель USB.",
           },
           reportDigital_warning: {
-            html: "span",
+            html: "p",
             textContent:
               "Внимание! Отчеты в неформализованном виде (HTM, XLS, DOC, PDF, JPEG т.п.) в обработку не принимаются!",
           },
@@ -72,26 +72,28 @@ export const reportDigital_config = {
         textContent: "• Предварительно записаться по телефону:",
       },
       reportDigital_step2_phones_sverdlovsk: {
-        html: "p",
+        html: "span",
         textContent:
           "Свердловская область: +7(343) 359-84-10, +7(982) 697-26-43, +7(982) 697-26-72",
       },
       reportDigital_step2_phones_kurgan: {
-        html: "p",
+        html: "span",
         textContent: "Курганская область: +7(3522)41-38-94",
       },
       reportDigital_step2_visit: {
         html: "p",
         textContent:
-          "• Обратиться лично, или через представителя в Свердловскстат по адресам:",
-      },
-      reportDigital_step2_address1: {
-        html: "p",
-        textContent: "г.Екатеринбург, ул.Толмачева, 23",
-      },
-      reportDigital_step2_address2: {
-        html: "p",
-        textContent: "г.Курган, ул. М.Горького, 40",
+          "• Обратиться лично, или через представителя в Свердловскстат по адресам: ",
+        children: {
+          reportDigital_step2_address1: {
+            html: "span",
+            textContent: "г.Екатеринбург, ул.Толмачева, 23",
+          },
+          reportDigital_step2_address2: {
+            html: "span",
+            textContent: "г.Курган, ул. М.Горького, 40",
+          },
+        },
       },
     },
   },

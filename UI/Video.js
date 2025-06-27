@@ -223,19 +223,23 @@ class Video {
       e.preventDefault();
       this.showControlsTemporarily();
 
-      if (
-        Math.floor(this.video.duration) == Math.floor(this.video.currentTime)
-      ) {
-        this.flexThisHideAll(this.arrayOfPlayButtons, this.replay);
-      }
+      const wasEnded = this.video.ended;
+
+      this.video.currentTime += 5;
 
       if (this.wasPaused) {
-        this.video.currentTime += 5;
         this.video.pause();
-      } else {
-        this.video.currentTime += 5;
+      }
+
+      if (
+        wasEnded ||
+        Math.floor(this.video.currentTime) >= Math.floor(this.video.duration)
+      ) {
+        this.shouldPlay = false;
+        this.flexThisHideAll(this.arrayOfPlayButtons, this.replay);
       }
     }
+
     if (e.key === "ArrowUp") {
       e.preventDefault();
       this.showControlsTemporarily();
@@ -437,7 +441,9 @@ class Video {
 
   onVideoPaused = () => {
     this.showControls();
-    this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
+    if (!this.video.ended) {
+      this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
+    }
 
     this.wasPaused = true;
     this.video.pause();

@@ -6,8 +6,8 @@ export const tutorialVideos_config = {
     children: {
       videosMenu_header: {
         html: "h2",
-        textContent:
-          "Короткометражные обучающие видеоролики по работе в системе веб-сбора",
+        innerHTML:
+          "Короткометражные обучающие видеоролики <br/> по работе в системе веб-сбора",
       },
       tutorialVideos_export: {
         html: "p",
