@@ -23,6 +23,10 @@ export class Renderer {
 
     this.processConfig(config, parent, isRecursive);
     this.applySpecialStyles(elements);
+
+    document.querySelector(
+      ".toggle-card.toggle-card--small.toggle-card--arr"
+    ).style.border = "none";
   }
 
   getParentElement(key) {

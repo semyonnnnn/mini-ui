@@ -92,12 +92,19 @@ const progressColor = {
   backgroundColor: "#1657b8",
 };
 
+export const allControlsWrapper = {
+  position: "absolute",
+  bottom: "0",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+};
+
 export const lengthWrapper = {
   paddingLeft: "1em",
   paddingRight: "1rem",
   boxSizing: "border-box",
   zIndex: "2",
-  position: "absolute",
   display: "block",
   width: "100%",
   bottom: "2.5rem",
@@ -225,7 +232,6 @@ export const controlsWrapper = {
   paddingLeft: "1rem",
   paddingRight: "1rem",
   boxSizing: "border-box",
-  position: "absolute",
   bottom: "0",
   left: "0",
   right: "0",

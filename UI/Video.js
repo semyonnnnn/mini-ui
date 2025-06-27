@@ -32,8 +32,10 @@ class Video {
       sound,
       halfSound,
       mute,
+      allControlsWrapper,
     } = this.dom;
 
+    this.allControlsWrapper = allControlsWrapper;
     this.sound = sound;
     this.halfSound = halfSound;
     this.mute = mute;
@@ -144,6 +146,7 @@ class Video {
   handleLengthMouseDown = (e) => {
     e.preventDefault();
     this.isSeeking = true;
+    this.wasPaused = this.video.paused;
     this.video.currentTime =
       (this.video.duration * e.offsetX) / this.length.offsetWidth;
     this.video.pause();
@@ -219,6 +222,12 @@ class Video {
     if (e.key === "ArrowRight") {
       e.preventDefault();
       this.showControlsTemporarily();
+
+      if (
+        Math.floor(this.video.duration) == Math.floor(this.video.currentTime)
+      ) {
+        this.flexThisHideAll(this.arrayOfPlayButtons, this.replay);
+      }
 
       if (this.wasPaused) {
         this.video.currentTime += 5;
@@ -360,7 +369,6 @@ class Video {
     );
 
     this.canvasCover.addEventListener("dblclick", () => this.maxVideo());
-    this.maximize.addEventListener("click", () => this.maxVideo());
   };
 
   // =====================
@@ -516,6 +524,9 @@ class Video {
     window.removeEventListener("resize", this.resizeCanvas);
     document.body.style.overflow = "";
 
+    this.videosPlayer.appendChild(this.overlayControls);
+    this.videosPlayer.appendChild(this.overlayCanvasCover);
+
     if (this.fullscreenFrameRequest) {
       cancelAnimationFrame(this.fullscreenFrameRequest);
       this.fullscreenFrameRequest = null;
@@ -564,6 +575,15 @@ class Video {
     document.body.appendChild(this.maxCanvas);
     document.body.style.overflow = "hidden";
 
+    this.overlayCanvasCover = this.canvasCover;
+    this.overlayControls = this.allControlsWrapper;
+
+    this.overlayCanvasCover.style.zIndex = 100000;
+    this.overlayControls.style.zIndex = 100001;
+
+    document.body.appendChild(this.overlayCanvasCover);
+    document.body.appendChild(this.overlayControls);
+
     this.drawFullScreen();
 
     window.addEventListener("resize", this.resizeCanvas);
@@ -578,13 +598,21 @@ class Video {
       { once: true }
     );
 
-    this.maxCanvas.addEventListener(
-      "dblclick",
-      () => {
+    this.canvasCover.addEventListener("dblclick", () => {
+      if (!document.body.contains(this.maxCanvas)) {
+        this.maxVideo();
+      } else {
         this.returnStandardSize();
-      },
-      { once: true }
-    );
+      }
+    });
+
+    this.maximize.addEventListener("click", () => {
+      if (!document.body.contains(this.maxCanvas)) {
+        this.maxVideo();
+      } else {
+        this.returnStandardSize();
+      }
+    });
   }
 }
 
