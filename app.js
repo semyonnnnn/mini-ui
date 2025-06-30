@@ -39,5 +39,8 @@ import { animations } from "./styles/helpers/style-functions.js";
     new Menu();
     new AppController();
     animations();
+    setTimeout(() => {
+      document.querySelector(".toggle-card__main").style.display = "block";
+    }, 0);
   });
 })();

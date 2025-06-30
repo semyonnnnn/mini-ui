@@ -380,6 +380,14 @@ class Video {
     );
 
     this.canvasCover.addEventListener("dblclick", () => this.maxVideo());
+
+    this.maximize.addEventListener("click", () => {
+      if (!document.body.contains(this.maxCanvas)) {
+        this.maxVideo();
+      } else {
+        this.returnStandardSize();
+      }
+    });
   };
 
   // =====================
@@ -616,14 +624,6 @@ class Video {
     );
 
     this.canvasCover.addEventListener("dblclick", () => {
-      if (!document.body.contains(this.maxCanvas)) {
-        this.maxVideo();
-      } else {
-        this.returnStandardSize();
-      }
-    });
-
-    this.maximize.addEventListener("click", () => {
       if (!document.body.contains(this.maxCanvas)) {
         this.maxVideo();
       } else {
