@@ -66,6 +66,7 @@ export const loadingActive = {
 export const videosPlayer = {
   height: "100%",
   position: "relative",
+  backgroundColor: "black",
 };
 export const maxCanvas = {
   zIndex: "9999",

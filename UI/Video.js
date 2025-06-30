@@ -149,6 +149,13 @@ class Video {
     this.wasPaused = this.video.paused;
     this.video.currentTime =
       (this.video.duration * e.offsetX) / this.length.offsetWidth;
+    if (
+      !this.video.ended ||
+      !Math.floor(this.video.currentTime) >= Math.floor(this.video.duration)
+    ) {
+      this.shouldPlay = false;
+      this.flexThisHideAll(this.arrayOfPlayButtons, this.play);
+    }
     this.video.pause();
     this.shouldPlay = false;
   };
@@ -528,7 +535,7 @@ class Video {
   returnStandardSize = () => {
     this.maxCanvas.remove();
     window.removeEventListener("resize", this.resizeCanvas);
-    document.body.style.overflow = "";
+    document.querySelector(".no-js").style.overflow = "scroll";
 
     this.videosPlayer.appendChild(this.overlayControls);
     this.videosPlayer.appendChild(this.overlayCanvasCover);
@@ -579,7 +586,7 @@ class Video {
 
     this.resizeCanvas();
     document.body.appendChild(this.maxCanvas);
-    document.body.style.overflow = "hidden";
+    document.querySelector(".no-js").style.overflow = "hidden";
 
     this.overlayCanvasCover = this.canvasCover;
     this.overlayControls = this.allControlsWrapper;
