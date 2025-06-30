@@ -26,6 +26,7 @@ export const maxMinWrapper = {
 };
 
 export const maximize = {
+  width: "100%",
   alignItems: "center",
   justifyContent: "center",
   height: "1px",

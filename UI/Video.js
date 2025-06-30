@@ -536,6 +536,8 @@ class Video {
     this.maxCanvas.remove();
     window.removeEventListener("resize", this.resizeCanvas);
     document.querySelector(".no-js").style.overflow = "scroll";
+    document.body.style.overflow = "scroll";
+    this.allControlsWrapper.style.position = "absolute";
 
     this.videosPlayer.appendChild(this.overlayControls);
     this.videosPlayer.appendChild(this.overlayCanvasCover);
@@ -587,6 +589,8 @@ class Video {
     this.resizeCanvas();
     document.body.appendChild(this.maxCanvas);
     document.querySelector(".no-js").style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    this.allControlsWrapper.style.position = "fixed";
 
     this.overlayCanvasCover = this.canvasCover;
     this.overlayControls = this.allControlsWrapper;
