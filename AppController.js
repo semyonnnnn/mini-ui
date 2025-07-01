@@ -18,7 +18,7 @@ export class AppController {
   setupNatives() {
     const { toggleCardHeaderLink } = this.DomElements;
     toggleCardHeaderLink.innerHTML = "";
-    toggleCardHeaderLink.classList = "btn btn-primary btn-lg btn-block";
+    toggleCardHeaderLink.classList = "btn btn-light btn-lg btn-block";
     toggleCardHeaderLink.textContent =
       "НАВИГАТОР ПО СДАЧЕ ОТЧЕТНОСТИ В ЭЛЕКТРОННОМ ВИДЕ";
   }
