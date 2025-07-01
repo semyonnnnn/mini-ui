@@ -168,25 +168,25 @@ export const config = {
       imgBox: {
         html: "div",
         children: {
-          outer_tg: {
-            html: "div",
-            children: {
-              outer_tg_link: {
-                html: "a",
-                href: "https://t.me/rosstat66bot",
-                children: {
-                  tgImg: {
-                    html: "img",
-                    src: "https://66.rosstat.gov.ru/storage/mediabank/tg.png",
-                  },
-                  tgText: {
-                    html: "p",
-                    textContent: `Телеграм \n СтатБот`,
-                  },
-                },
-              },
-            },
-          },
+          // outer_tg: {
+          //   html: "div",
+          //   children: {
+          //     outer_tg_link: {
+          //       html: "a",
+          //       href: "https://t.me/rosstat66bot",
+          //       children: {
+          //         tgImg: {
+          //           html: "img",
+          //           src: "https://66.rosstat.gov.ru/storage/mediabank/tg.png",
+          //         },
+          //         tgText: {
+          //           html: "p",
+          //           textContent: `Телеграм \n СтатБот`,
+          //         },
+          //       },
+          //     },
+          //   },
+          // },
           outer_contacts: {
             html: "div",
             children: {
