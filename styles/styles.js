@@ -80,7 +80,7 @@ export const imgBox = {
   a: {
     color: "black",
     textDecoration: "none",
-    display: "inline-block",
+    display: "flex",
     alignItems: "center",
     gap: "1rem",
   },
