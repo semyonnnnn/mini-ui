@@ -192,7 +192,7 @@ export const config = {
             children: {
               outer_contacts_link: {
                 html: "a",
-                href: "https://66.rosstat.gov.ru/folder/52210",
+                href: "https://66.rosstat.gov.ru/contacts",
                 children: {
                   contactsImg: {
                     html: "img",
