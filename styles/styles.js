@@ -114,3 +114,8 @@ export const videosMenu_header = {
 export const reportDigital_warning = {
   color: "red",
 };
+export const getSignature_warning = {
+  self: {
+    listStyleType: "none",
+  },
+};

@@ -114,6 +114,7 @@ export const config = {
                         html: "li",
                         textContent: "Предоставить отчёт OFFLINE",
                       },
+
                       inner_reportDigital: {
                         html: "li",
                         textContent:

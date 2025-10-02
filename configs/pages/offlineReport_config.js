@@ -29,6 +29,18 @@ export const offlineReport_config = {
           },
         },
       },
+      offlineReport_step3: {
+        html: "p",
+        textContent:
+          "- Утилита для обновления базы данных сетевой версии offline-модуля(версии 3.0.18)",
+        children: {
+          inner_utilReport_link: {
+            html: "a",
+            textContent: "(скачать)",
+            href: "https://66.rosstat.gov.ru/storage/mediabank/OfflineApplication.DbCreatorApp(11).zip",
+          },
+        },
+      },
     },
   },
 };
