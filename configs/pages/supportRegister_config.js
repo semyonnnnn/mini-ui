@@ -13,7 +13,7 @@ export const supportRegister_config = {
           supportRegister_step1_link: {
             html: "a",
             textContent: "заявление на подключение к системе Web-сбора. [DOCX]",
-            href: "https://66.rosstat.gov.ru/storage/mediabank/%D0%97%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_2022.docx",
+            href: "https://66.rosstat.gov.ru/storage/mediabank/заявление_на_подключение_к_системе_Web_сбора.docx",
           },
         },
       },
