@@ -49,7 +49,7 @@ export const config = {
                             html: "a",
                             textContent:
                               "Предоставление отчётности с использованием приложения Госключ [PDF]",
-                            href: "https://66.rosstat.gov.ru/storage/mediabank/Инструкция_предоставления_отчета_с_использованием_Госключа_2024.pdf",
+                            href: "https://66.rosstat.gov.ru/storage/mediabank/Инструкция_предоставления_отчета_с_использованием_Госключа.pdf",
                           },
                         },
                       },
